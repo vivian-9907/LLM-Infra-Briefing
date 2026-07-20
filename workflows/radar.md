@@ -10,9 +10,9 @@
 
 - `channel`：`quantization` 或 `ai-infra`。如果用户没有显式指定，按 `SKILL.md` 的默认频道规则推断。
 - `time_range`：今天、本周、过去 30 天，或明确日期范围。
-- `source_scope`：全部来源、只查 arXiv、只查 GitHub、只查 Hugging Face、只查 RSS、只查 model releases、只查 framework releases，或 `config/sources.yml` 中定义的来源组。
+- `source_scope`：全部来源、只查 arXiv、只查 GitHub、只查 Hugging Face、只查 RSS、只查 model releases、只查 framework releases、只查 agent products，或 `config/sources.yml` 中定义的来源组。
 
-默认不要要求用户提供临时关键词。常规 radar 只读取 `config/channels/<channel>/profile.yml`。当 source scope 是 `model_releases` / `framework_releases`、用户询问具体模型/机构、或候选命中重点实体时，读取 `config/watchlist.yml`。只有在专项扫描、召回不足、分类不确定或用户要求完整覆盖时，才展开读取 `topics.full.yml` 和频道 research map。
+默认不要要求用户提供临时关键词。常规 radar 读取 `config/channels/<channel>/profile.yml` 和 `config/watchlist.yml`：profile 决定频道主题，watchlist 决定每周固定关注的模型、agent 产品、机构和框架。只有在专项扫描、召回不足、分类不确定或用户要求完整覆盖时，才展开读取 `topics.full.yml` 和频道 research map。
 
 ## 领域限定与软过滤
 
@@ -49,19 +49,19 @@
 ## 执行步骤
 
 1. 读取 `config/channels.yml`，确定本轮 `channel`。
-2. 读取该频道的 `profile.yml`、`config/sources.yml` 和 `config/radar-rubric.yml`。
-3. 当 source scope 是 `model_releases` / `framework_releases`、用户询问具体模型/机构、或候选命中重点实体时，读取 `config/watchlist.yml`。
+2. 读取该频道的 `profile.yml`、`config/watchlist.yml`、`config/sources.yml` 和 `config/radar-rubric.yml`。
+3. 用频道 profile 生成主题搜索 query，用 watchlist 扩展每周固定关注实体的搜索 query；watchlist 用于召回和筛选，不代表最终报告必须覆盖每个实体。
 4. 默认不要读取 `topics.full.yml` 和频道 research map；只有在专项扫描、召回不足、分类不确定、需要专项洞察或用户明确要求完整覆盖时才展开读取。
 5. 在指定时间范围和来源范围内搜索。
 6. 如果用户给出领域限定，先按“领域限定与软过滤”确定本轮核心子类和允许保留的相邻子类。
-7. 先用频道 profile、必要时结合 watchlist 和 `config/radar-rubric.yml` 的 `prefilter_gates` 做主题过滤；未通过过滤的条目直接丢弃或标记为 `ignore`。
+7. 先用频道 profile、watchlist 和 `config/radar-rubric.yml` 的 `prefilter_gates` 做主题过滤；未通过过滤的条目直接丢弃或标记为 `ignore`。
 8. 对领域限定场景，再用软过滤判断条目是核心候选、相邻候选还是应过滤条目；相邻候选必须能解释其关系。
 9. 将通过过滤的结果整理成 Discover Card：
    - 标题
    - 链接
    - 来源
    - 发布或更新时间
-   - 类型：论文、代码、博客、benchmark、数据集、报告、model release 或 framework release
+   - 类型：论文、代码、博客、benchmark、数据集、报告、model release、agent product update 或 framework release
    - 子类：默认使用频道 profile 中的核心方向；展开时可使用 full topics / research map 中的子类
    - 如果本轮有领域限定，说明是否属于核心候选或相邻候选；相邻候选必须写关联原因
    - 命中的研究主题
@@ -75,7 +75,7 @@
 11. 对 `quantization` 频道的 `long_context_mechanisms_for_compression` 这类相邻机制/挑战标签，只有在候选明确连接到量化、KV cache 压缩、serving、activation outlier、memory 或 inference efficiency 时才保留；否则过滤或标为 `ignore`。
 12. 对 `quantization` 频道的 `multimodal_quantization` 这类多模态标签，优先保留明确涉及 VLM/MLLM/LVLM、视觉/视频/语音 encoder、modality projector、cross-modal attention、visual tokens、多模态 KV cache、DiT/diffusion transformer、serving/runtime 或 kernel 的候选；纯图像压缩、传统视频 codec 或和 LLM/transformer 推理无关的图像量化应过滤。
 13. 对综述/benchmark/taxonomy，只在它明确聚焦本频道核心范围时保留；主要建议动作为 `skim`、`inspect` 或 `update-map`。
-14. 对模型发布和框架 release，结合 watchlist 判断是否属于重点实体；只有当它包含模型版本、架构、context length、runtime 支持、量化 artifact、benchmark、kernel 或兼容性信息时才保留。
+14. 对模型发布、agent 产品更新和框架 release，结合 watchlist 判断是否属于重点实体；只有当它包含模型版本、架构、context length、runtime 支持、量化 artifact、benchmark、kernel、兼容性信息、agent 工作流变化、工具调用能力、IDE/CLI/GitHub 集成或权限/沙箱变化时才保留。
 15. 先按子类聚合候选，并按“专项洞察限制”判断是否有子类达到专项洞察门槛。
 16. 在子类内按初筛评分排序，不按固定 Top N 凑数。
 17. 在输出开头给出“本轮方向摘要”：哪些子类强、哪些子类弱、哪些子类达到专项洞察门槛、哪些子类暂不展开以及原因。
@@ -92,7 +92,7 @@
 - GitHub Releases：优先关注 vLLM、SGLang、TensorRT-LLM、transformers、llama.cpp、FlashInfer、Triton 等项目的模型支持、serving、量化、kernel 和 breaking changes。
 - Hugging Face：按频道过滤模型卡、paper/project 关联、artifact、benchmark、推理示例和 runtime 使用说明。不要扩展成泛模型能力新闻监控；只保留和本频道目标相关的条目。
 - Model hubs：关注新模型版本、模型卡、context length、架构、license、quantized checkpoint、GGUF/safetensors、runtime 兼容和 benchmark。
-- Vendor blogs：关注官方模型发布、技术博客和框架公告；过滤只有营销表述、没有技术细节的普通新闻。
+- Vendor blogs：关注官方模型发布、agent 产品更新、技术博客和框架公告；过滤只有营销表述、没有技术细节的普通新闻。
 - RSS：实验室、公司、博客和工程团队文章只有在有明确技术细节，或指向论文/代码时才保留。
 
 ## 候选动作

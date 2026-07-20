@@ -1,6 +1,6 @@
 # Research Radar
 
-这是一个给 Codex 使用的轻量研究雷达 skill，用来按固定知识源、频道 profile 和评分标准发现新论文、新项目、模型发布、框架 release 和高价值技术资料。
+这是一个给 Codex 使用的轻量研究雷达 skill，用来按固定知识源、频道 profile、重点 watchlist 和评分标准发现新论文、新项目、模型发布、agent 产品更新、框架 release 和高价值技术资料。
 
 当前支持两个频道：
 
@@ -62,7 +62,7 @@ sources.yml
   └─ 决定 radar 去哪里搜，包括 arXiv、GitHub、GitHub Releases、Hugging Face、模型发布页、RSS 和厂商博客
 
 watchlist.yml
-  └─ 只在模型发布、框架 release 或候选命中重点实体时读取；维护“重点盯谁”，不是 source 列表
+  └─ 常规 radar 每次读取；维护“重点盯谁”，包括模型、agent 产品、机构和框架，不是 source 列表
 
 config/channels/<channel>/profile.yml
   └─ 默认读取的轻量频道画像，用于常规搜索召回、主题过滤和噪音过滤
@@ -81,9 +81,9 @@ references/channels/<channel>-map.md
 
 - `channels.yml` 是路由表，决定本轮使用哪个频道。
 - `config/channels/<channel>/profile.yml` 是默认入口过滤器，短、轻、省 token。
-- `config/watchlist.yml` 是重点实体表，用于 LongCat、MiMo、DeepSeek、GPT/ChatGPT、Claude、Qwen、vLLM、SGLang 等发布监控。
+- `config/watchlist.yml` 是重点实体表，用于 LongCat、MiMo、DeepSeek、GPT/ChatGPT、Claude、Qwen、Codex、Claude Code、Cursor、vLLM、SGLang 等发布监控。
 - `topics.full.yml` 和 `references/channels/<channel>-map.md` 是按需展开层，用来处理专项扫描或不确定分类。
 
 ## 状态
 
-当前是 v0.4 lightweight radar-only multi-channel baseline。默认读取 profile；需要时再展开完整 topics 和 research map。
+当前是 v0.5 lightweight radar-only multi-channel baseline。默认读取 profile 和 watchlist；需要时再展开完整 topics 和 research map。

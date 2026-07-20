@@ -8,8 +8,8 @@
 - 默认 profile：读取 `config/channels/{{channel}}/profile.yml`
 - 是否展开 full topics：否 / 是，原因：
 - 是否展开 research map：否 / 是，原因：
-- 是否读取 watchlist：否 / 是，原因：
-- 主题依据：profile / full topics / research map
+- 是否读取 watchlist：是，常规 radar 默认读取；用于固定关注模型、agent 产品、机构和框架
+- 主题依据：profile / watchlist / full topics / research map
 - 领域限定：无 / {{core_subtopic}}
 - 软过滤口径：核心候选优先；相邻候选必须说明关联原因
 - 筛选规则：按 `config/radar-rubric.yml` 初筛，只列有价值条目，不强行凑数量
@@ -30,7 +30,7 @@
 
 | 子类 | 时间 | 工作 | 类型 | 数据格式/压缩率 | 核心技术 | 意义/评价 | kernel/artifact 落地状态 | 建议动作 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|  |  |  | 论文 / 项目 / 博客 / benchmark / model release / framework release |  |  |  |  | `inspect` / `track-code` / `replicate` / `watch` / `ignore` |
+|  |  |  | 论文 / 项目 / 博客 / benchmark / model release / agent product update / framework release |  |  |  |  | `inspect` / `track-code` / `replicate` / `watch` / `ignore` |
 
 ## 分方向候选详情
 

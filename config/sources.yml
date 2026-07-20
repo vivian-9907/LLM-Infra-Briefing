@@ -9,6 +9,11 @@ source_groups:
     - github_releases
     - model_hubs
     - vendor_blogs
+  agent_products:
+    - vendor_blogs
+    - github
+    - github_releases
+    - rss
   papers:
     - arxiv
     - rss
@@ -198,7 +203,13 @@ sources:
       - quantization
       - kernel
       - framework release
-    notes: 跟踪官方模型发布、技术博客和框架公告。过滤掉只有营销描述、没有技术细节或没有 infra/quantization 关联的普通新闻。
+      - agent product
+      - coding agent
+      - IDE
+      - CLI
+      - GitHub integration
+      - tool use
+    notes: 跟踪官方模型发布、agent 产品更新、技术博客和框架公告。过滤掉只有营销描述、没有技术细节或没有 infra/quantization/agent 关联的普通新闻。
 
 future_sources:
   - name: SSRN

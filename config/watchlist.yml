@@ -1,15 +1,28 @@
 version: 1
 purpose: >
-  High-priority model families, organizations, frameworks and keywords to watch
-  across shared sources. This is not a source list; it tells radar who deserves
-  extra attention when model or framework releases appear.
+  High-priority model families, agent products, organizations, frameworks and
+  keywords to watch across shared sources. This is not a source list; it tells
+  radar who deserves extra attention in weekly scans.
 
-default_read: false
+default_read: true
 read_when:
-  - source_scope includes model_releases or framework_releases
-  - user asks about model releases, official updates, model cards or release notes
+  - every regular weekly radar run
+  - source_scope includes model_releases, framework_releases or vendor_blogs
+  - user asks about model releases, agent products, official updates, model cards or release notes
   - a candidate mentions one of the watched entities
-  - profile filtering keeps too many generic model news candidates
+
+search_policy:
+  use_as_query_expansion: true
+  max_entities_per_run: 12
+  prefer:
+    - official release notes
+    - official blogs or changelogs
+    - model cards
+    - GitHub releases
+    - docs pages with versioned updates
+  notes:
+    - Use watchlist terms to expand weekly search queries, not only as a post-filter.
+    - Do not force every watched entity into the final report; report only high-signal changes.
 
 model_families:
   - name: GPT / ChatGPT
@@ -113,9 +126,90 @@ model_families:
       - model card
       - serving/runtime support
 
+agent_products:
+  - name: Codex
+    organization: OpenAI
+    aliases:
+      - OpenAI Codex
+      - Codex CLI
+      - Codex cloud
+      - codex agent
+    watch_for:
+      - coding agent capability
+      - cloud task / local CLI workflow
+      - repo automation
+      - sandbox / permission model
+      - GitHub integration
+      - model/runtime change
+
+  - name: Claude Code
+    organization: Anthropic
+    aliases:
+      - Claude Code
+      - Anthropic coding agent
+    watch_for:
+      - coding agent capability
+      - IDE / terminal workflow
+      - tool-use and permission behavior
+      - repo automation
+      - enterprise / team workflow
+
+  - name: ChatGPT Agent
+    organization: OpenAI
+    aliases:
+      - ChatGPT agent
+      - OpenAI agent
+      - Operator
+      - Deep Research
+    watch_for:
+      - agent product release
+      - browser / computer-use workflow
+      - tool orchestration
+      - connectors
+      - research workflow
+      - enterprise / API implication
+
+  - name: Cursor
+    organization: Anysphere
+    aliases:
+      - Cursor
+      - Cursor Agent
+      - Cursor IDE
+    watch_for:
+      - coding agent workflow
+      - repo-scale edit behavior
+      - model integration
+      - indexing / context retrieval
+      - benchmark or eval
+
+  - name: Devin
+    organization: Cognition
+    aliases:
+      - Devin
+      - Cognition Devin
+    watch_for:
+      - software engineering agent
+      - async task workflow
+      - evaluation / benchmark
+      - enterprise deployment
+
+  - name: Gemini CLI / Jules
+    organization: Google
+    aliases:
+      - Gemini CLI
+      - Jules
+      - Google coding agent
+    watch_for:
+      - coding agent workflow
+      - GitHub integration
+      - model/runtime update
+      - benchmark or eval
+
 organizations:
   - OpenAI
   - Anthropic
+  - Anysphere
+  - Cognition
   - DeepSeek
   - Alibaba Qwen
   - Meta AI
@@ -136,6 +230,10 @@ frameworks:
   - Triton
 
 keep_release_if_any:
+  - agent product release or changelog
+  - coding agent capability change
+  - tool-use, browser-use, computer-use or connector update
+  - IDE, CLI, GitHub or repo automation integration
   - architecture detail
   - context length change
   - tokenizer or model card change
@@ -149,4 +247,4 @@ drop_release_if:
   - pure marketing announcement
   - no model card, release note, artifact, benchmark or technical detail
   - only generic capability claims
-  - no relation to quantization, AI infra, serving/runtime or model deployment
+  - no relation to quantization, AI infra, serving/runtime, model deployment, coding agents or research agents
