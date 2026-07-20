@@ -1,0 +1,32 @@
+version: 1
+channel: ai-infra
+default_read: true
+
+scope: >
+  LLM infrastructure: serving/runtime, training systems, MoE, communication,
+  kernels/operators, hardware affinity, model releases with systems impact,
+  and end-to-end performance analysis.
+
+core_focus:
+  - vLLM / SGLang / TensorRT-LLM / llama.cpp serving and release changes
+  - speculative decoding, KV cache, scheduler, prefill/decode, batching
+  - MoE systems, expert parallelism, dispatch/combine, communication overlap
+  - distributed training, parallelism, checkpointing, optimizer sharding
+  - CUDA / Triton / CUTLASS kernels and operator fusion
+  - model versions whose release notes include context length, architecture, serving, kernel or hardware implications
+
+strong_signals:
+  - release notes, code changes, benchmark, paper, model card or artifact
+  - explicit latency, throughput, memory, scaling, MFU, TTFT/TPOT/P99 or cost result
+  - concrete runtime/framework/kernel/hardware detail
+  - architecture change that affects compute graph, memory, communication or serving shape
+
+noise_filters:
+  - pure product launch without technical detail
+  - generic model capability news without infra implications
+  - application-layer agent or prompt workflow without runtime/system relevance
+  - unverified social posts without a paper, code, model card or official note
+
+expand_when_needed:
+  topics_full: config/channels/ai-infra/topics.full.yml
+  research_map: references/channels/ai-infra-map.md

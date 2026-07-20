@@ -8,16 +8,16 @@ purpose: >
 prefilter_gates:
   scope_match:
     required: true
-    source: config/channels/<channel>/topics.yml
-    pass: 标题、摘要、README 或项目描述命中频道配置中的主题、同义词或明确相关系统方向。
-    fail: 明显是金融量化、量子计算、纯图像/视频 codec 量化、泛 compression，或只是在无关语境里提到 quantization。
+    source: config/channels/<channel>/profile.yml by default; expand to topics.full.yml when needed
+    pass: 标题、摘要、README、模型卡、release note 或项目描述命中频道 profile 中的核心方向、强信号或明确相关系统方向。
+    fail: 明显是金融量化、量子计算、纯图像/视频 codec 量化、泛 compression、纯产品营销，或只是在无关语境里提到 quantization / infra。
     note: 相关性是进入 radar 评分前的过滤条件，不参与排序加权。
 
 dimensions:
   summary_quality:
     weight: 1.2
-    high: 摘要或项目 README 能清楚说明问题、方法、收益和关键证据，技术信息量足够。
-    low: 摘要或 README 含糊、营销味重，或看不出具体技术贡献。
+    high: 摘要、项目 README、模型卡或 release note 能清楚说明问题、方法、收益和关键证据，技术信息量足够。
+    low: 摘要、README、模型卡或 release note 含糊、营销味重，或看不出具体技术贡献。
 
   open_source_signal:
     weight: 1.0
@@ -32,7 +32,7 @@ dimensions:
   practical_value_guess:
     weight: 1.3
     high: 初看就可能用于推理、训练、finetuning、serving、长上下文、边缘部署、MoE、多模态推理或全模态模型场景。
-    low: 很难连接到真实 LLM 量化或部署需求。
+    low: 很难连接到真实 LLM 量化、AI infra、serving、训练、kernel、模型发布或部署需求。
 
   freshness_and_activity:
     weight: 0.6

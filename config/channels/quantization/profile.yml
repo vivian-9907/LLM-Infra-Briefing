@@ -1,0 +1,30 @@
+version: 1
+channel: quantization
+default_read: true
+
+scope: >
+  LLM / MLLM quantization, low-bit compression, KV cache compression,
+  multimodal quantization, and runtime/kernel integration.
+
+core_focus:
+  - FP8 / FP4 / INT4 / INT8 formats and recipes
+  - KV cache quantization or compression for long-context serving
+  - optimizer, gradient, activation or training-time quantization
+  - multimodal / DiT / visual-token quantization or compression
+  - vLLM / SGLang / TensorRT-LLM / llama.cpp / kernel integration
+
+strong_signals:
+  - clear benchmark, ablation, artifact, model card or open-source code
+  - explicit latency, throughput, memory, perplexity, accuracy or compression result
+  - concrete runtime, kernel, packing layout, calibration or serving path
+  - relevant model release with quantized checkpoints or inference artifacts
+
+noise_filters:
+  - financial quantization
+  - generic compression unrelated to LLM / MLLM inference or training
+  - pure image/video codec work without transformer/runtime relevance
+  - model capability news without quantization, compression, runtime or artifact detail
+
+expand_when_needed:
+  topics_full: config/channels/quantization/topics.full.yml
+  research_map: references/channels/quantization-map.md

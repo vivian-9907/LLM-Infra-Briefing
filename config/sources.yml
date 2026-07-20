@@ -6,16 +6,33 @@ source_groups:
     - github
     - huggingface
     - rss
+    - github_releases
+    - model_hubs
+    - vendor_blogs
   papers:
     - arxiv
     - rss
   code:
     - github
+    - github_releases
     - huggingface
     - rss
   artifacts:
     - huggingface
     - github
+    - model_hubs
+  releases:
+    - github_releases
+    - model_hubs
+    - vendor_blogs
+    - rss
+  model_releases:
+    - model_hubs
+    - vendor_blogs
+    - huggingface
+  framework_releases:
+    - github_releases
+    - rss
 
 sources:
   arxiv:
@@ -38,7 +55,39 @@ sources:
     sort_preferences:
       - updated
       - stars
-    notes: 优先关注论文关联仓库、量化 kernel、runtime 集成、活跃项目和有 benchmark 支撑的实现。
+    notes: 优先关注论文关联仓库、量化/infra kernel、runtime 集成、活跃项目和有 benchmark 支撑的实现。
+
+  github_releases:
+    type: api_or_web
+    base_url: https://api.github.com/repos/{owner}/{repo}/releases
+    tracked_repositories:
+      - name: vLLM
+        repo: vllm-project/vllm
+      - name: SGLang
+        repo: sgl-project/sglang
+      - name: TensorRT-LLM
+        repo: NVIDIA/TensorRT-LLM
+      - name: transformers
+        repo: huggingface/transformers
+      - name: llama.cpp
+        repo: ggml-org/llama.cpp
+      - name: FlashInfer
+        repo: flashinfer-ai/flashinfer
+      - name: Triton
+        repo: triton-lang/triton
+    candidate_signals:
+      - new model support
+      - serving feature
+      - quantization
+      - FP8
+      - FP4
+      - KV cache
+      - speculative decoding
+      - MoE
+      - kernel
+      - benchmark
+      - breaking change
+    notes: 跟踪框架和 kernel 项目的 release。只保留和模型支持、serving/runtime、量化、kernel、性能或兼容性相关的版本变化。
 
   huggingface:
     type: hub_or_web
@@ -70,6 +119,31 @@ sources:
       - llama.cpp
     notes: 关注 Hugging Face Hub 上的量化 checkpoint、模型卡、paper/project 关联、artifact、benchmark 和推理/runtime 使用说明。不要把它扩展成泛模型能力新闻监控；只保留和 LLM 量化、压缩、serving、runtime 或 kernel 落地相关的条目。
 
+  model_hubs:
+    type: hub_or_web
+    search_targets:
+      - Hugging Face models
+      - Hugging Face papers
+      - ModelScope models
+      - official model cards
+    candidate_signals:
+      - new model version
+      - model card
+      - context length
+      - architecture
+      - tokenizer
+      - quantized checkpoint
+      - FP8
+      - FP4
+      - GGUF
+      - safetensors
+      - vLLM
+      - SGLang
+      - TensorRT-LLM
+      - benchmark
+      - license
+    notes: 跟踪模型版本发布和模型卡更新。保留条件是它对量化、serving、context length、架构、runtime 兼容、artifact 或 benchmark 有信息增量。
+
   rss:
     type: rss
     feeds:
@@ -86,10 +160,48 @@ sources:
         note: 除非发现当前可用 RSS/Atom feed，否则按普通页面来源处理。
     notes: RSS 用来接入实验室、公司、博客和工程团队更新。只有技术相关且信息充分的条目才保留。
 
+  vendor_blogs:
+    type: rss_or_web
+    feeds:
+      - name: Hugging Face blog
+        url: https://huggingface.co/blog/feed.xml
+      - name: NVIDIA technical blog
+        url: https://developer.nvidia.com/blog/feed
+      - name: Google DeepMind blog
+        url: https://deepmind.google/discover/blog/rss.xml
+    candidate_pages:
+      - name: OpenAI news
+        url: https://openai.com/news/
+      - name: Anthropic news
+        url: https://www.anthropic.com/news
+      - name: Meta AI blog
+        url: https://ai.meta.com/blog/
+      - name: Mistral AI news
+        url: https://mistral.ai/news/
+      - name: Qwen blog
+        url: https://qwenlm.github.io/blog/
+      - name: DeepSeek news
+        url: https://api-docs.deepseek.com/news
+      - name: vLLM blog
+        url: https://vllm.ai/blog
+      - name: SGLang / LMSYS blog
+        url: https://lmsys.org/blog/
+    candidate_signals:
+      - new model
+      - new model version
+      - context length
+      - architecture
+      - open weights
+      - inference
+      - serving
+      - benchmark
+      - quantization
+      - kernel
+      - framework release
+    notes: 跟踪官方模型发布、技术博客和框架公告。过滤掉只有营销描述、没有技术细节或没有 infra/quantization 关联的普通新闻。
+
 future_sources:
   - name: SSRN
     reason: 可能包含 working paper，但第一版优先做更容易自动化的技术来源。
   - name: PapersWithCode
-    reason: 适合补充论文、代码和 benchmark 关联。
-  - name: selected_official_release_notes
-    reason: 仅在用户明确要求时关注少量官方 release notes；默认不做各大模型官网或厂商新闻监控。
+    reason: 适合补充论文、代码和 benchmark 关联；当前先通过 GitHub/HF 和搜索间接覆盖。

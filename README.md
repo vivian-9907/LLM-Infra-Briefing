@@ -1,6 +1,6 @@
 # Research Radar
 
-这是一个给 Codex 使用的研究雷达 skill，用来按固定知识源、主题配置和评估标准发现新论文、新项目和高价值技术资料。
+这是一个给 Codex 使用的轻量研究雷达 skill，用来按固定知识源、频道 profile 和评分标准发现新论文、新项目、模型发布、框架 release 和高价值技术资料。
 
 当前支持两个频道：
 
@@ -21,9 +21,12 @@
 ├── config/
 │   ├── channels.yml
 │   ├── channels/
-│   │   ├── quantization/topics.yml
-│   │   └── ai-infra/topics.yml
-│   ├── topics.yml              # legacy quantization entry
+│   │   ├── quantization/
+│   │   │   ├── profile.yml
+│   │   │   └── topics.full.yml
+│   │   └── ai-infra/
+│   │       ├── profile.yml
+│   │       └── topics.full.yml
 │   ├── sources.yml
 │   └── radar-rubric.yml
 ├── templates/
@@ -32,12 +35,10 @@
 │   ├── channels/
 │   │   ├── quantization-map.md
 │   │   └── ai-infra-map.md
-│   ├── research-map.md         # legacy quantization entry
 │   └── prompt-style.md
 ├── outputs/
 │   ├── quantization/
-│   ├── ai-infra/
-│   └── radar/                  # legacy output directory
+│   └── ai-infra/
 └── agents/
     └── openai.yaml
 ```
@@ -54,27 +55,30 @@
 
 ```text
 channels.yml
-  └─ 决定本轮 radar 使用哪个频道、主题配置、研究地图和输出目录
+  └─ 决定本轮 radar 使用哪个频道、轻量 profile、完整 topics、研究地图和输出目录
 
 sources.yml
-  └─ 决定 radar 去哪里搜，包括 arXiv、GitHub、Hugging Face Hub、RSS 等来源
+  └─ 决定 radar 去哪里搜，包括 arXiv、GitHub、GitHub Releases、Hugging Face、模型发布页、RSS 和厂商博客
 
-config/channels/<channel>/topics.yml
-  └─ 被 radar 消费，用于对应频道的搜索召回、主题过滤和排除误召回
+config/channels/<channel>/profile.yml
+  └─ 默认读取的轻量频道画像，用于常规搜索召回、主题过滤和噪音过滤
+
+config/channels/<channel>/topics.full.yml
+  └─ 只在专项扫描、召回不足或分类不确定时读取，用于展开完整关键词和同义词
 
 radar-rubric.yml
   └─ 被 radar 消费，用于对通过主题过滤的候选做初筛排序和动作建议
 
 references/channels/<channel>-map.md
-  └─ 被 radar 消费，用于给候选打标签、描述技术方向、应用场景、成熟度和系统视角
+  └─ 只在需要解释方向、写专项洞察或分类不确定时读取
 ```
 
 简短理解：
 
 - `channels.yml` 是路由表，决定本轮使用哪个频道。
-- `config/channels/<channel>/topics.yml` 是入口过滤器，决定什么能被搜到和留下。
-- `references/channels/<channel>-map.md` 是分类解释器，决定留下来的内容怎么被理解和描述。
+- `config/channels/<channel>/profile.yml` 是默认入口过滤器，短、轻、省 token。
+- `topics.full.yml` 和 `references/channels/<channel>-map.md` 是按需展开层，用来处理专项扫描或不确定分类。
 
 ## 状态
 
-当前是 v0.3 radar-only multi-channel baseline。后续应该通过真实运行 `quantization` 和 `ai-infra` 两个频道的 radar 来迭代关键词、评分标准和输出模板。
+当前是 v0.4 lightweight radar-only multi-channel baseline。默认读取 profile；需要时再展开完整 topics 和 research map。
