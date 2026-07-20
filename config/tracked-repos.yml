@@ -1,0 +1,169 @@
+version: 1
+purpose: >
+  GitHub repositories that deserve direct release or activity tracking. This
+  file owns concrete repo identities; sources.yml owns source types and API
+  behavior.
+
+default_read: true
+read_when:
+  - source_scope includes github_releases, github_activity, framework_releases or repo_activity
+  - user asks about framework releases, repo activity, kernels, runtimes or training systems
+  - a watched framework, runtime or kernel project needs direct GitHub evidence
+
+usage_policy:
+  use_source_modes:
+    - github_releases
+    - github_activity
+  channel_filter: use repos whose channels include the current channel
+  not_a_retention_gate: true
+  notes:
+    - Repo activity is evidence, not an automatic reason to include an item.
+    - Keep each repository here once; use source_modes to decide whether to scan releases, activity, or both.
+    - If a repository is also an important entity, it may appear in watchlist.yml as a framework or organization signal.
+
+repositories:
+  - name: vLLM
+    repo: vllm-project/vllm
+    channels:
+      - quantization
+      - ai-infra
+    source_modes:
+      - github_releases
+      - github_activity
+    tags:
+      - serving-runtime
+      - scheduler
+      - kv-cache
+      - speculative-decoding
+      - quantization
+
+  - name: SGLang
+    repo: sgl-project/sglang
+    channels:
+      - quantization
+      - ai-infra
+    source_modes:
+      - github_releases
+      - github_activity
+    tags:
+      - serving-runtime
+      - scheduler
+      - kv-cache
+      - speculative-decoding
+      - moe-runtime
+
+  - name: TensorRT-LLM
+    repo: NVIDIA/TensorRT-LLM
+    channels:
+      - quantization
+      - ai-infra
+    source_modes:
+      - github_releases
+      - github_activity
+    tags:
+      - serving-runtime
+      - kernel-optimization
+      - quantization
+      - hardware-portability
+
+  - name: transformers
+    repo: huggingface/transformers
+    channels:
+      - quantization
+      - ai-infra
+    source_modes:
+      - github_releases
+      - github_activity
+    tags:
+      - model-support
+      - quantization
+      - serving-compatibility
+
+  - name: llama.cpp
+    repo: ggml-org/llama.cpp
+    channels:
+      - quantization
+      - ai-infra
+    source_modes:
+      - github_releases
+      - github_activity
+    tags:
+      - quantization
+      - gguf
+      - edge-inference
+      - hardware-portability
+
+  - name: FlashInfer
+    repo: flashinfer-ai/flashinfer
+    channels:
+      - quantization
+      - ai-infra
+    source_modes:
+      - github_releases
+      - github_activity
+    tags:
+      - serving-runtime
+      - kernel-optimization
+      - kv-cache
+      - memory-bandwidth
+
+  - name: Triton
+    repo: triton-lang/triton
+    channels:
+      - ai-infra
+    source_modes:
+      - github_releases
+      - github_activity
+    tags:
+      - kernel-optimization
+      - operator-fusion
+      - hardware-portability
+
+  - name: Megatron-LM
+    repo: NVIDIA/Megatron-LM
+    channels:
+      - ai-infra
+    source_modes:
+      - github_releases
+      - github_activity
+    tags:
+      - distributed-training
+      - moe-runtime
+      - communication-overlap
+
+  - name: DeepSpeed
+    repo: microsoft/DeepSpeed
+    channels:
+      - ai-infra
+    source_modes:
+      - github_releases
+      - github_activity
+    tags:
+      - distributed-training
+      - optimizer-sharding
+      - communication-overlap
+
+  - name: TransformerEngine
+    repo: NVIDIA/TransformerEngine
+    channels:
+      - quantization
+      - ai-infra
+    source_modes:
+      - github_releases
+      - github_activity
+    tags:
+      - fp8
+      - training-runtime
+      - kernel-optimization
+
+  - name: CUTLASS
+    repo: NVIDIA/cutlass
+    channels:
+      - ai-infra
+    source_modes:
+      - github_releases
+      - github_activity
+    tags:
+      - kernel-optimization
+      - operator-fusion
+      - hardware-portability

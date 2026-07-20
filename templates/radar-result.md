@@ -9,7 +9,10 @@
 - 是否展开 full topics：否 / 是，原因：
 - 是否展开 research map：否 / 是，原因：
 - 是否读取 watchlist：是，常规 radar 默认读取；用于固定关注模型、agent 产品、机构和框架
-- 主题依据：profile / watchlist / full topics / research map
+- 是否读取 tracked-repos：否 / 是，原因：
+- 是否读取 experts：否 / 是，原因：
+- 是否读取 venues：否 / 是，原因：
+- 主题依据：profile / watchlist / tracked-repos / experts / venues / full topics / research map
 - 领域限定：无 / {{core_subtopic}}
 - 软过滤口径：核心候选优先；相邻候选必须说明关联原因
 - 筛选规则：按 `config/radar-rubric.yml` 初筛，只列有价值条目，不强行凑数量

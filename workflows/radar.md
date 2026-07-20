@@ -12,7 +12,7 @@
 - `time_range`：今天、本周、过去 30 天，或明确日期范围。
 - `source_scope`：全部来源、只查 arXiv、只查 GitHub、只查 Hugging Face、只查 RSS、只查 model releases、只查 framework releases、只查 agent products、只查 repo activity，或 `config/sources.yml` 中定义的来源组。
 
-默认不要要求用户提供临时关键词。常规 radar 读取 `config/channels/<channel>/profile.yml` 和 `config/watchlist.yml`：profile 决定频道主题，watchlist 决定每周固定关注的模型、agent 产品、机构和框架。只有在专项扫描、召回不足、分类不确定或用户要求完整覆盖时，才展开读取 `topics.full.yml` 和频道 research map。
+默认不要要求用户提供临时关键词。常规 radar 读取 `config/channels/<channel>/profile.yml` 和 `config/watchlist.yml`：profile 决定频道主题，watchlist 决定每周固定关注的模型、agent 产品、机构和框架。`config/sources.yml` 决定来源通道；当使用 GitHub release / activity 类来源时，读取 `config/tracked-repos.yml` 获取具体 repo 清单。`config/experts.yml` 和 `config/venues.yml` 按需读取，用于作者/团队/会议线索的 query expansion、归因和信号加权，不是保留门槛。只有在专项扫描、召回不足、分类不确定或用户要求完整覆盖时，才展开读取 `topics.full.yml` 和频道 research map。
 
 ## 领域限定与软过滤
 
@@ -51,13 +51,15 @@
 1. 读取 `config/channels.yml`，确定本轮 `channel`。
 2. 读取该频道的 `profile.yml`、`config/watchlist.yml`、`config/sources.yml` 和 `config/radar-rubric.yml`。
 3. 用频道 profile 生成主题搜索 query，用 watchlist 扩展每周固定关注实体的搜索 query；watchlist 用于召回和筛选，不代表最终报告必须覆盖每个实体。
-4. 默认不要读取 `topics.full.yml` 和频道 research map；只有在专项扫描、召回不足、分类不确定、需要专项洞察或用户明确要求完整覆盖时才展开读取。
-5. 在指定时间范围和来源范围内搜索。
-6. 如果用户给出领域限定，先按“领域限定与软过滤”确定本轮核心子类和允许保留的相邻子类。
-7. 先用频道 profile、watchlist 和 `config/radar-rubric.yml` 的 `prefilter_gates` 做主题过滤；未通过过滤的条目直接丢弃或标记为 `ignore`。
-8. 对领域限定场景，再用软过滤判断条目是核心候选、相邻候选还是应过滤条目；相邻候选必须能解释其关系。
-9. 读取本频道在 `config/channels.yml` 中配置的 `template`；如果未配置，则使用 `templates/radar-result.md` 作为 fallback。
-10. 将通过过滤的结果整理成 Briefing Card。每条保持轻量，默认 2-5 行，避免长摘要：
+4. 如果 source_scope 包含 github_releases、github_activity、framework_releases 或 repo_activity，读取 `config/tracked-repos.yml`，按当前频道和 repo 的 `source_modes` 过滤出本轮要查的仓库。
+5. 当用户指定作者/实验室/maintainer、需要论文归因、召回不足、专项扫描，或 source_scope 包含 papers / arxiv / benchmark / repo_activity 时，读取 `config/experts.yml` 和/或 `config/venues.yml`。专家和会议只用于 query expansion、venue context、attribution 和 signal weighting，不能替代保留标准。
+6. 默认不要读取 `topics.full.yml` 和频道 research map；只有在专项扫描、召回不足、分类不确定、需要专项洞察或用户明确要求完整覆盖时才展开读取。
+7. 在指定时间范围和来源范围内搜索。
+8. 如果用户给出领域限定，先按“领域限定与软过滤”确定本轮核心子类和允许保留的相邻子类。
+9. 先用频道 profile、watchlist 和 `config/radar-rubric.yml` 的 `prefilter_gates` 做主题过滤；未通过过滤的条目直接丢弃或标记为 `ignore`。
+10. 对领域限定场景，再用软过滤判断条目是核心候选、相邻候选还是应过滤条目；相邻候选必须能解释其关系。
+11. 读取本频道在 `config/channels.yml` 中配置的 `template`；如果未配置，则使用 `templates/radar-result.md` 作为 fallback。
+12. 将通过过滤的结果整理成 Briefing Card。每条保持轻量，默认 2-5 行，避免长摘要：
    - 标题
    - 链接
    - 来源
@@ -73,25 +75,25 @@
    - 证据
    - 初筛信号摘要
    - 建议动作
-11. 丢弃明显过时、浅层或只有营销信息的低信号条目。
-12. 对 `quantization` 频道的 `long_context_mechanisms_for_compression` 这类相邻机制/挑战标签，只有在候选明确连接到量化、KV cache 压缩、serving、activation outlier、memory 或 inference efficiency 时才保留；否则过滤或标为 `ignore`。
-13. 对 `quantization` 频道的 `multimodal_quantization` 这类多模态标签，优先保留明确涉及 VLM/MLLM/LVLM、视觉/视频/语音 encoder、modality projector、cross-modal attention、visual tokens、多模态 KV cache、DiT/diffusion transformer、serving/runtime 或 kernel 的候选；纯图像压缩、传统视频 codec 或和 LLM/transformer 推理无关的图像量化应过滤。
-14. 对综述/benchmark/taxonomy，只在它明确聚焦本频道核心范围时保留；主要建议动作为 `skim`、`inspect` 或 `update-map`。
-15. 对模型发布、agent 产品更新和框架 release，结合 watchlist 判断是否属于重点实体；只有当它包含模型版本、架构、context length、runtime 支持、量化 artifact、benchmark、kernel、兼容性信息、agent 工作流变化、工具调用能力、IDE/CLI/GitHub 集成或权限/沙箱变化时才保留。
-16. 先按子类聚合候选，并按“专项洞察限制”判断是否有子类达到专项洞察门槛。
-17. 在子类内按初筛评分排序，不按固定 Top N 凑数。
-18. 在输出开头给出“本轮方向摘要”：哪些子类强、哪些子类弱、哪些子类达到专项洞察门槛、哪些子类暂不展开以及原因。
-19. 按频道模板输出轻量简报，不默认输出大表格。`ai-infra` 的顺序是：新模型与 agent 产品、新论文趋势、高优先级论文、高优先级开源项目、重要仓库 PR / Release 趋势。`quantization` 的顺序是：新模型与量化 artifact、新论文趋势、高优先级论文、高优先级开源项目、重要仓库 PR / Release 趋势。
-20. 只有当“本轮方向摘要”已经点名某个子类达到门槛时，才补充“专项洞察”。专项洞察要总结方向级信号、共同点、分歧和下一步，而不是重复单条候选。
-21. 如果某个子类本轮信号明显，可以补充专项洞察；证据不足时必须写入“暂不展开的子类及原因”。
-22. 如果用户已有历史表格或明确要求维护历史记录，可以追加“历史表格”；第一版默认只预留，不强制维护。
-23. 如果没有高价值结果，直接说明；只有在有帮助时才列出少量 near-miss。
+13. 丢弃明显过时、浅层或只有营销信息的低信号条目。
+14. 对 `quantization` 频道的 `long_context_mechanisms_for_compression` 这类相邻机制/挑战标签，只有在候选明确连接到量化、KV cache 压缩、serving、activation outlier、memory 或 inference efficiency 时才保留；否则过滤或标为 `ignore`。
+15. 对 `quantization` 频道的 `multimodal_quantization` 这类多模态标签，优先保留明确涉及 VLM/MLLM/LVLM、视觉/视频/语音 encoder、modality projector、cross-modal attention、visual tokens、多模态 KV cache、DiT/diffusion transformer、serving/runtime 或 kernel 的候选；纯图像压缩、传统视频 codec 或和 LLM/transformer 推理无关的图像量化应过滤。
+16. 对综述/benchmark/taxonomy，只在它明确聚焦本频道核心范围时保留；主要建议动作为 `skim`、`inspect` 或 `update-map`。
+17. 对模型发布、agent 产品更新和框架 release，结合 watchlist 判断是否属于重点实体；只有当它包含模型版本、架构、context length、runtime 支持、量化 artifact、benchmark、kernel、兼容性信息、agent 工作流变化、工具调用能力、IDE/CLI/GitHub 集成或权限/沙箱变化时才保留。
+18. 先按子类聚合候选，并按“专项洞察限制”判断是否有子类达到专项洞察门槛。
+19. 在子类内按初筛评分排序，不按固定 Top N 凑数。
+20. 在输出开头给出“本轮方向摘要”：哪些子类强、哪些子类弱、哪些子类达到专项洞察门槛、哪些子类暂不展开以及原因。
+21. 按频道模板输出轻量简报，不默认输出大表格。`ai-infra` 的顺序是：新模型与 agent 产品、新论文趋势、高优先级论文、高优先级开源项目、重要仓库 PR / Release 趋势。`quantization` 的顺序是：新模型与量化 artifact、新论文趋势、高优先级论文、高优先级开源项目、重要仓库 PR / Release 趋势。
+22. 只有当“本轮方向摘要”已经点名某个子类达到门槛时，才补充“专项洞察”。专项洞察要总结方向级信号、共同点、分歧和下一步，而不是重复单条候选。
+23. 如果某个子类本轮信号明显，可以补充专项洞察；证据不足时必须写入“暂不展开的子类及原因”。
+24. 如果用户已有历史表格或明确要求维护历史记录，可以追加“历史表格”；第一版默认只预留，不强制维护。
+25. 如果没有高价值结果，直接说明；只有在有帮助时才列出少量 near-miss。
 
 ## 来源说明
 
 - arXiv：重点看标题、摘要、日期、类别、作者，以及是否有代码。
 - GitHub：优先关注论文关联仓库、kernel/runtime 集成、活跃维护、stars、近期提交和 benchmark 证据。
-- GitHub Releases / repo activity：优先关注 vLLM、SGLang、TensorRT-LLM、transformers、llama.cpp、FlashInfer、Triton 等项目的模型支持、serving、量化、kernel、PR 趋势和 breaking changes。
+- GitHub Releases / repo activity：优先关注 vLLM、SGLang、TensorRT-LLM、transformers、llama.cpp、FlashInfer、Triton、Megatron-LM、DeepSpeed、TransformerEngine、CUTLASS 等项目的模型支持、serving、训练、量化、kernel、PR 趋势和 breaking changes。
 - Hugging Face：按频道过滤模型卡、paper/project 关联、artifact、benchmark、推理示例和 runtime 使用说明。不要扩展成泛模型能力新闻监控；只保留和本频道目标相关的条目。
 - Model hubs：关注新模型版本、模型卡、context length、架构、license、quantized checkpoint、GGUF/safetensors、runtime 兼容和 benchmark。
 - Vendor blogs：关注官方模型发布、agent 产品更新、技术博客和框架公告；过滤只有营销表述、没有技术细节的普通新闻。
@@ -114,7 +116,7 @@
 优先使用频道配置的模板：`quantization` 使用 `templates/radar-result-quantization.md`，`ai-infra` 使用 `templates/radar-result-ai-infra.md`。如果频道没有配置模板，再使用 `templates/radar-result.md`。必须包含：
 
 - 搜索时间范围和来源范围
-- 本轮频道、读取的 profile、是否展开 full topics / research map、来自配置的主题/查询依据
+- 本轮频道、读取的 profile、是否读取 tracked-repos / experts / venues、是否展开 full topics / research map、来自配置的主题/查询依据
 - 如用户给出“专项/只看某方向”等领域限定，说明本轮核心子类、软过滤口径和相邻候选保留规则
 - 本轮方向摘要：强信号子类、弱信号子类、达到专项洞察门槛的子类、暂不展开的子类及原因
 - 按频道模板组织的轻量简报

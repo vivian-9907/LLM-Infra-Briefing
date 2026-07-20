@@ -74,5 +74,8 @@
 - 来源范围：
 - 频道：`ai-infra`
 - 读取：profile + watchlist + sources + rubric
+- 是否读取 tracked-repos：否 / 是，原因：
+- 是否读取 experts：否 / 是，原因：
+- 是否读取 venues：否 / 是，原因：
 - 是否展开 full topics：否 / 是，原因：
 - 是否展开 research map：否 / 是，原因：

@@ -45,6 +45,9 @@ radar ai-infra 只看 agent products 和 repo activity
 │   │       ├── profile.yml
 │   │       └── topics.full.yml
 │   ├── sources.yml
+│   ├── tracked-repos.yml
+│   ├── experts.yml
+│   ├── venues.yml
 │   └── radar-rubric.yml
 ├── templates/
 │   ├── radar-result.md
@@ -64,7 +67,7 @@ radar ai-infra 只看 agent products 和 repo activity
 
 - `SKILL.md`：Codex skill 入口，负责触发和选择 `radar` 工作流。
 - `workflows/`：核心 radar 工作流说明。
-- `config/`：频道配置、固定研究范围、信息来源和 radar 初筛标准。
+- `config/`：频道配置、固定研究范围、信息来源、专家/会议线索和 radar 初筛标准。
 - `templates/`：雷达结果模板；量化和 infra 有各自的频道模板，通用模板作为 fallback。
 - `references/`：频道研究地图和输出风格约束。
 - `outputs/`：按频道保存实际运行后的 radar 结果。
@@ -77,10 +80,19 @@ channels.yml
   └─ 决定本轮 radar 使用哪个频道、轻量 profile、完整 topics、研究地图、结果模板和输出目录
 
 sources.yml
-  └─ 决定 radar 去哪里搜，包括 arXiv、GitHub、GitHub Releases / repo activity、Hugging Face、模型发布页、RSS 和厂商博客
+  └─ 决定 radar 用哪些来源通道和来源组，包括 arXiv、GitHub、GitHub Releases / repo activity、Hugging Face、模型发布页、RSS 和厂商博客
+
+tracked-repos.yml
+  └─ 常规 repo release / activity 扫描时读取；维护具体 GitHub 仓库清单、频道归属、source_modes 和 runtime/operator 标签
 
 watchlist.yml
   └─ 常规 radar 每次读取；维护“重点盯谁”，包括模型、agent 产品、机构和框架，不是 source 列表
+
+experts.yml
+  └─ 按需读取；维护作者、maintainer、实验室和研究团队，用于 query expansion、归因和信号加权，不是强制收录名单
+
+venues.yml
+  └─ 按需读取；维护会议、workshop 和 benchmark 场域，用于 query expansion 和 venue context，不是直接 source 列表
 
 config/channels/<channel>/profile.yml
   └─ 默认读取的轻量频道画像，用于常规搜索召回、主题过滤和噪音过滤
@@ -102,7 +114,11 @@ templates/radar-result-<channel>.md
 
 - `channels.yml` 是路由表，决定本轮使用哪个频道。
 - `config/channels/<channel>/profile.yml` 是默认入口过滤器，短、轻、省 token。
+- `config/sources.yml` 是来源通道表，回答“用什么方式搜”。具体 repo 不直接维护在这里。
+- `config/tracked-repos.yml` 是 GitHub 仓库表，回答“哪些 repo 值得直接查 release / activity”。每个 repo 只出现一次，用 `source_modes` 表示扫描方式。
 - `config/watchlist.yml` 是重点实体表，用于 LongCat、MiMo、DeepSeek、Kimi、GPT/ChatGPT、Claude、Qwen、Codex、Claude Code、Kimi Code、Qwen Code、Cursor、vLLM、SGLang 等发布监控。
+- `config/experts.yml` 是专家/团队注册表。每个条目用 `primary_channels` 和 `secondary_channels` 表示主副频道，避免同一个跨领域作者在多个频道重复维护。
+- `config/venues.yml` 是会议/benchmark 场域表。会议名用于搜索扩展和候选上下文，只有具体 proceedings、RSS 或站点才应放进 `sources.yml`。
 - `topics.full.yml` 和 `references/channels/<channel>-map.md` 是按需展开层，用来处理专项扫描或不确定分类。
 
 ## 状态

@@ -1,0 +1,126 @@
+version: 1
+purpose: >
+  Important conferences, workshops and benchmark venues used for query
+  expansion and candidate context. Venues are not direct sources unless a
+  specific proceedings page, RSS feed or benchmark site is listed in sources.yml.
+
+default_read: false
+read_when:
+  - source_scope includes papers, arxiv, rss or benchmark
+  - user asks for conference, workshop or benchmark scans
+  - a candidate needs venue context for signal weighting
+  - a focused scan needs stronger recall than channel profile and watchlist provide
+
+usage_policy:
+  use_for:
+    - query_expansion
+    - venue_context
+    - signal_weighting
+  not_a_retention_gate: true
+  notes:
+    - A strong venue can raise attention, but generic papers still need systems or quantization evidence.
+    - Prefer workshop names only when they repeatedly surface relevant LLM infra or quantization work.
+
+venues:
+  - name: MLSys
+    primary_channels:
+      - ai-infra
+    secondary_channels:
+      - quantization
+    relevance: high
+    watch_for:
+      - efficient inference
+      - training systems
+      - serving systems
+      - quantization
+      - benchmark design
+
+  - name: OSDI
+    primary_channels:
+      - ai-infra
+    relevance: high
+    watch_for:
+      - distributed systems
+      - serving systems
+      - scheduling
+      - storage and memory systems
+
+  - name: SOSP
+    primary_channels:
+      - ai-infra
+    relevance: high
+    watch_for:
+      - systems architecture
+      - distributed runtime
+      - scheduling
+      - end-to-end performance
+
+  - name: NSDI
+    primary_channels:
+      - ai-infra
+    relevance: medium
+    watch_for:
+      - distributed serving
+      - communication
+      - scheduling
+      - performance analysis
+
+  - name: ASPLOS
+    primary_channels:
+      - ai-infra
+    secondary_channels:
+      - quantization
+    relevance: medium
+    watch_for:
+      - hardware affinity
+      - operator optimization
+      - memory hierarchy
+      - accelerator systems
+
+  - name: SC
+    aliases:
+      - Supercomputing
+    primary_channels:
+      - ai-infra
+    relevance: medium
+    watch_for:
+      - distributed training
+      - communication overlap
+      - scaling
+      - hardware performance
+
+  - name: NeurIPS
+    primary_channels:
+      - quantization
+    secondary_channels:
+      - ai-infra
+    relevance: medium
+    watch_for:
+      - LLM quantization
+      - efficient training
+      - compression
+      - systems benchmark
+
+  - name: ICML
+    primary_channels:
+      - quantization
+    secondary_channels:
+      - ai-infra
+    relevance: medium
+    watch_for:
+      - LLM quantization
+      - efficient inference
+      - training efficiency
+      - benchmark
+
+  - name: ICLR
+    primary_channels:
+      - quantization
+    secondary_channels:
+      - ai-infra
+    relevance: medium
+    watch_for:
+      - quantization methods
+      - compression
+      - efficient architecture
+      - reproducible benchmark

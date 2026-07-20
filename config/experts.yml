@@ -1,0 +1,43 @@
+version: 1
+purpose: >
+  Influential authors, maintainers, labs and research groups used for query
+  expansion, attribution and signal weighting. This is not a forced inclusion
+  list; candidates still need to pass the radar rubric.
+
+default_read: false
+read_when:
+  - source_scope includes papers, arxiv, github or repo_activity and author/lab attribution matters
+  - user asks for work from specific authors, labs, maintainers or research groups
+  - candidate attribution is useful for ranking near-miss papers or projects
+  - a focused scan needs stronger recall than channel profile and watchlist provide
+
+usage_policy:
+  primary_channel_match: use for query expansion and stronger attribution signal
+  secondary_channel_match: use as weak query expansion or tie-breaker signal
+  no_channel_match: do not use unless the user explicitly asks for that expert
+  not_a_retention_gate: true
+  notes:
+    - Expert match can raise attention, but cannot rescue a candidate with no technical evidence.
+    - Prefer official pages, Google Scholar, DBLP, GitHub profiles and lab publication pages when adding entries.
+    - Keep aliases short and useful for search; avoid broad organization names that belong in watchlist.yml.
+
+schema:
+  required_fields:
+    - name
+    - type
+    - primary_channels
+    - topics
+  optional_fields:
+    - affiliation
+    - aliases
+    - secondary_channels
+    - links
+    - watch_for
+    - notes
+  allowed_types:
+    - author
+    - maintainer
+    - lab
+    - research_group
+
+experts: []

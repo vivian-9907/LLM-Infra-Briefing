@@ -1,6 +1,9 @@
 version: 1
 default_channel: quantization
 watchlist: config/watchlist.yml
+tracked_repos: config/tracked-repos.yml
+experts: config/experts.yml
+venues: config/venues.yml
 
 channels:
   quantization:
