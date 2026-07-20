@@ -1,4 +1,4 @@
-# Research Radar - {{channel}} - {{date_or_range}}
+# LLM Infra Briefing - {{channel}} - {{date_or_range}}
 
 ## 本次运行上下文
 

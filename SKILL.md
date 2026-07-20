@@ -1,13 +1,13 @@
 ---
-name: research-radar
-description: Lightweight AI research radar assistant. 用于按固定频道搜索和筛选近期有价值的 LLM quantization、AI infra、serving/runtime、training systems、MoE、communication、kernel/operator、hardware affinity、model releases、agent product updates 和 framework releases 相关论文、项目、博客或 artifact。
+name: llm-infra-briefing
+description: Lightweight LLM infra briefing assistant. 用于按固定频道搜索和筛选近期有价值的 LLM quantization、AI infra、serving/runtime、training systems、MoE、communication、kernel/operator、hardware affinity、model releases、agent product updates 和 framework releases 相关论文、项目、博客或 artifact，并输出轻量周报式简报。
 ---
 
-# Research Radar
+# LLM Infra Briefing
 
 ## 概览
 
-使用这个 skill 执行固定频道的研究雷达工作流：
+使用这个 skill 执行固定频道的 LLM infra 简报工作流：
 
 - `radar`：从固定配置的主题和来源中，发现并筛选有价值的论文/项目/博客/artifact。
 

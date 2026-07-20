@@ -1,6 +1,6 @@
-# Research Radar
+# LLM Infra Briefing
 
-这是一个给 Codex 使用的轻量研究雷达 skill，用来按固定知识源、频道 profile、重点 watchlist 和评分标准发现新论文、新项目、模型发布、agent 产品更新、框架 release、重要仓库 activity 和高价值技术资料，并输出周报式简报。
+这是一个给 Codex 使用的轻量 LLM Infra 简报 skill，用来按固定知识源、频道 profile、重点 watchlist 和评分标准发现新论文、新项目、模型发布、agent 产品更新、框架 release、重要仓库 activity 和高价值技术资料，并输出周报式简报。
 
 当前支持两个频道：
 
@@ -91,4 +91,4 @@ templates/radar-result-<channel>.md
 
 ## 状态
 
-当前是 v0.5 lightweight radar-only multi-channel baseline。默认读取 profile 和 watchlist；需要时再展开完整 topics 和 research map。
+当前是 v0.6 lightweight infra briefing baseline。默认读取 profile 和 watchlist；需要时再展开完整 topics 和 research map。

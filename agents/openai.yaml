@@ -1,4 +1,4 @@
 interface:
-  display_name: "Research Radar"
-  short_description: "运行量化和 AI Infra 研究雷达工作流。"
-  default_prompt: "使用这个 skill 搜索有价值的量化或 AI Infra 论文、项目、博客和 artifact。"
+  display_name: "LLM Infra Briefing"
+  short_description: "运行量化和 AI Infra 轻量简报工作流。"
+  default_prompt: "使用这个 skill 搜索有价值的量化或 AI Infra 论文、项目、模型/agent 更新、仓库 activity 和 artifact。"
