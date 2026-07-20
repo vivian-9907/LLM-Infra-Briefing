@@ -19,13 +19,13 @@
 
 ## 本轮方向摘要
 
-先给出本轮 radar 的方向判断，再进入候选表。这里不是复述每个条目，而是回答：本轮哪些子类出现了值得关注的信号，哪些子类没有强结果，是否形成了值得专项跟踪的趋势。
+先给出本轮 radar 的方向判断，再进入候选表。这里不是复述每个条目，而是回答：本轮哪些子类出现了值得关注的信号，哪些子类没有强结果，是否形成了值得轻量观察的方向。
 
 - 强信号子类：
 - 弱信号或 near-miss 子类：
-- 达到专项洞察门槛的子类：
+- 满足方向观察条件的子类：
 - 暂不展开的子类及原因：
-- 本轮无专项洞察时说明：
+- 本轮无方向观察时说明：
 
 ## 候选总览表
 
@@ -55,9 +55,9 @@
 - 初筛信号摘要：
 - 建议动作：`inspect` / `track-code` / `replicate` / `watch` / `ignore`
 
-## 专项洞察（可选）
+## 方向观察（可选）
 
-只在“本轮方向摘要”中已经点名某个子类达到专项洞察门槛时使用本节。专项洞察要解释一个方向为什么在本轮值得看，而不是简单重复候选条目；例如 KV cache 压缩、optimizer quantization、FP4/NVFP4/MXFP4、多模态量化、visual token compression、DiT quantization、balanced/outlier-aware quantization、rotation-based quantization 或 kernel/runtime 集成。
+默认不写。只在用户指定子方向，或“本轮方向摘要”中已经点名某个子类满足方向观察条件时使用本节。方向观察要解释一个方向为什么在本轮值得看，而不是简单重复候选条目；例如 KV cache 压缩、optimizer quantization、FP4/NVFP4/MXFP4、多模态量化、visual token compression、DiT quantization、balanced/outlier-aware quantization、rotation-based quantization 或 kernel/runtime 集成。
 
 - 子类：
 - 触发依据：

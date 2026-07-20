@@ -6,14 +6,14 @@ purpose: >
 
 default_read: false
 read_when:
-  - source_scope includes papers, arxiv, github or repo_activity and author/lab attribution matters
+  - source_scope includes papers, arxiv, github, technical blogs or repo_activity
   - user asks for work from specific authors, labs, maintainers or research groups
-  - candidate attribution is useful for ranking near-miss papers or projects
+  - candidate attribution is useful for ranking papers, blogs, projects or near-miss candidates
   - a focused scan needs stronger recall than channel profile and watchlist provide
 
 usage_policy:
   primary_channel_match: use for query expansion and stronger attribution signal
-  secondary_channel_match: use as weak query expansion or tie-breaker signal
+  related_channel_match: use only as weak query expansion or tie-breaker signal
   no_channel_match: do not use unless the user explicitly asks for that expert
   not_a_retention_gate: true
   notes:
@@ -24,15 +24,14 @@ usage_policy:
 schema:
   required_fields:
     - name
-    - type
     - primary_channels
     - topics
   optional_fields:
+    - type
     - affiliation
     - aliases
-    - secondary_channels
+    - related_channels
     - links
-    - watch_for
     - notes
   allowed_types:
     - author
@@ -40,4 +39,75 @@ schema:
     - lab
     - research_group
 
-experts: []
+entry_defaults:
+  type: author
+  watch_for:
+    - new paper
+    - code release
+    - benchmark
+    - artifact
+  notes: Keep entries lightweight; add Scholar/homepage links only when known exactly.
+
+experts:
+  - name: Song Han
+    aliases: [Han Song]
+    affiliation: MIT / NVIDIA
+    primary_channels: [quantization]
+    related_channels: [ai-infra]
+    topics: [model compression, quantization, hardware-aware inference]
+
+  - name: Tri Dao
+    affiliation: Together AI
+    primary_channels: [ai-infra]
+    related_channels: [quantization]
+    topics: [attention kernels, efficient attention, inference acceleration]
+
+  - name: Zhijian Liu
+    aliases: [Liu Zhijian]
+    affiliation: UC San Diego
+    primary_channels: [quantization]
+    topics: [model compression, quantization, efficient inference]
+    links:
+      github: https://github.com/z-lab/
+
+  - name: Dawei Yang
+    aliases: [Yang Dawei]
+    affiliation: Houmo AI
+    primary_channels: [quantization]
+    topics: [low-bit quantization, FP4, quantized training]
+
+  - name: Zechun Liu
+    aliases: [Liu Zechun]
+    affiliation: Meta AI
+    primary_channels: [quantization]
+    topics: [model compression, quantization, efficient LLM]
+
+  - name: Dan Alistarh
+    affiliation: IST Austria
+    primary_channels: [quantization]
+    related_channels: [ai-infra]
+    topics: [quantization, sparsity, distributed training]
+
+  - name: Zhihang Yuan
+    aliases: [Yuan Zhihang]
+    affiliation: ByteDance
+    primary_channels: [quantization]
+    topics: [LLM quantization, post-training quantization, low-bit inference]
+
+  - name: Haotong Qin
+    aliases: [Qin Haotong]
+    primary_channels: [quantization]
+    topics: [LLM quantization, low-bit quantization, activation quantization]
+
+  - name: Jianfei Chen
+    aliases: [Chen Jianfei]
+    affiliation: Tsinghua
+    primary_channels: [quantization]
+    related_channels: [ai-infra]
+    topics: [efficient ML systems, LLM quantization, inference optimization]
+
+  - name: Christopher De Sa
+    aliases: [Chris De Sa]
+    affiliation: Cornell
+    primary_channels: [quantization]
+    topics: [low-precision training, quantization, optimization]

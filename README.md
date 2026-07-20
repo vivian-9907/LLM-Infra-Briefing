@@ -104,7 +104,7 @@ radar-rubric.yml
   └─ 被 radar 消费，用于对通过主题过滤的候选做初筛排序和动作建议
 
 references/channels/<channel>-map.md
-  └─ 只在需要解释方向、写专项洞察或分类不确定时读取
+  └─ 只在需要解释方向、写方向观察或分类不确定时读取
 
 templates/radar-result-<channel>.md
   └─ 决定本频道最终简报形态；量化强调量化 artifact、数据格式/压缩率/精度/落地，infra 强调模型/agent、系统层级/性能/扩展性/runtime/repo activity
@@ -117,7 +117,7 @@ templates/radar-result-<channel>.md
 - `config/sources.yml` 是来源通道表，回答“用什么方式搜”。具体 repo 不直接维护在这里。
 - `config/tracked-repos.yml` 是 GitHub 仓库表，回答“哪些 repo 值得直接查 release / activity”。每个 repo 只出现一次，用 `source_modes` 表示扫描方式。
 - `config/watchlist.yml` 是重点实体表，用于 LongCat、MiMo、DeepSeek、Kimi、GPT/ChatGPT、Claude、Qwen、Codex、Claude Code、Kimi Code、Qwen Code、Cursor、vLLM、SGLang 等发布监控。
-- `config/experts.yml` 是专家/团队注册表。每个条目用 `primary_channels` 和 `secondary_channels` 表示主副频道，避免同一个跨领域作者在多个频道重复维护。
+- `config/experts.yml` 是专家/团队注册表。每个条目用 `primary_channels` 表示主频道，用 `related_channels` 表示弱相关频道，避免同一个跨领域作者在多个频道重复维护。
 - `config/venues.yml` 是会议/benchmark 场域表。会议名用于搜索扩展和候选上下文，只有具体 proceedings、RSS 或站点才应放进 `sources.yml`。
 - `topics.full.yml` 和 `references/channels/<channel>-map.md` 是按需展开层，用来处理专项扫描或不确定分类。
 

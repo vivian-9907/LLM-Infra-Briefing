@@ -29,22 +29,15 @@
 
 如果用户的领域限定无法通过 profile 映射到现有子类，再用 `topics.full.yml` 的同义词和频道研究地图做近似归类；仍不确定时，在输出中明确说明本轮采用的解释口径。
 
-## 专项洞察限制
+## 方向观察（可选）
 
-专项洞察默认不写。只有满足下面条件之一，才允许在本轮 radar 中展开：
+默认不写方向观察。只有用户指定子方向，或候选足以支持方向级判断时才写：
 
-- 同一子类下出现至少 2 个有价值候选，且它们共享明确技术主题、系统问题、数据格式、runtime 路径或实验趋势。
-- 同一子类下只有 1 个候选，但它同时具备强证据：清晰论文/项目/模型发布/release note、明确 benchmark 或 artifact、明显工程落地信号，并且和频道 profile 或 research map 中的重要方向直接相关。
-- 用户明确要求对某个子类做专项观察。
+- 同一子类下有 2 个以上高价值候选，并且共享明确技术问题、方法、数据格式、runtime 路径或实验趋势。
+- 或者只有 1 个候选，但它有强证据：论文、代码、release note、artifact、benchmark 或工程落地信号明确。
+- 用户明确要求观察某个子类。
 
-禁止写专项洞察的情况：
-
-- 只有 1 个弱候选或 near-miss。
-- 只是关键词相同，但问题、方法、场景或落地路径没有可比较关系。
-- 只能从标题猜测，没有摘要、README、benchmark、代码或其他证据支持。
-- 需要阅读全文才能判断，但本轮 radar 只看到了标题/摘要/项目简介。
-
-专项洞察最多展开 1-3 个子类。每个专项洞察必须说明触发依据、代表工作、共同点、分歧或不确定性、置信度和下一步动作。它不能写成单篇论文摘要。
+不要在只有弱候选、near-miss、标题关键词或证据不足时写趋势判断。方向观察最多 1-3 个子类，必须说明触发依据、代表工作、共同点、不确定性和下一步动作。
 
 ## 执行步骤
 
@@ -52,8 +45,8 @@
 2. 读取该频道的 `profile.yml`、`config/watchlist.yml`、`config/sources.yml` 和 `config/radar-rubric.yml`。
 3. 用频道 profile 生成主题搜索 query，用 watchlist 扩展每周固定关注实体的搜索 query；watchlist 用于召回和筛选，不代表最终报告必须覆盖每个实体。
 4. 如果 source_scope 包含 github_releases、github_activity、framework_releases 或 repo_activity，读取 `config/tracked-repos.yml`，按当前频道和 repo 的 `source_modes` 过滤出本轮要查的仓库。
-5. 当用户指定作者/实验室/maintainer、需要论文归因、召回不足、专项扫描，或 source_scope 包含 papers / arxiv / benchmark / repo_activity 时，读取 `config/experts.yml` 和/或 `config/venues.yml`。专家和会议只用于 query expansion、venue context、attribution 和 signal weighting，不能替代保留标准。
-6. 默认不要读取 `topics.full.yml` 和频道 research map；只有在专项扫描、召回不足、分类不确定、需要专项洞察或用户明确要求完整覆盖时才展开读取。
+5. 当 source_scope 包含 papers / arxiv / github / technical blogs / repo_activity，用户指定作者/实验室/maintainer，或候选归因有助于排序时，读取 `config/experts.yml` 和/或 `config/venues.yml`。专家和会议只用于 query expansion、venue context、attribution 和 signal weighting，不能替代保留标准；`primary_channels` 命中强于 `related_channels`，后者只作为弱相关信号或排序 tie-breaker。
+6. 默认不要读取 `topics.full.yml` 和频道 research map；只有在专项扫描、召回不足、分类不确定、需要方向观察或用户明确要求完整覆盖时才展开读取。
 7. 在指定时间范围和来源范围内搜索。
 8. 如果用户给出领域限定，先按“领域限定与软过滤”确定本轮核心子类和允许保留的相邻子类。
 9. 先用频道 profile、watchlist 和 `config/radar-rubric.yml` 的 `prefilter_gates` 做主题过滤；未通过过滤的条目直接丢弃或标记为 `ignore`。
@@ -80,12 +73,12 @@
 15. 对 `quantization` 频道的 `multimodal_quantization` 这类多模态标签，优先保留明确涉及 VLM/MLLM/LVLM、视觉/视频/语音 encoder、modality projector、cross-modal attention、visual tokens、多模态 KV cache、DiT/diffusion transformer、serving/runtime 或 kernel 的候选；纯图像压缩、传统视频 codec 或和 LLM/transformer 推理无关的图像量化应过滤。
 16. 对综述/benchmark/taxonomy，只在它明确聚焦本频道核心范围时保留；主要建议动作为 `skim`、`inspect` 或 `update-map`。
 17. 对模型发布、agent 产品更新和框架 release，结合 watchlist 判断是否属于重点实体；只有当它包含模型版本、架构、context length、runtime 支持、量化 artifact、benchmark、kernel、兼容性信息、agent 工作流变化、工具调用能力、IDE/CLI/GitHub 集成或权限/沙箱变化时才保留。
-18. 先按子类聚合候选，并按“专项洞察限制”判断是否有子类达到专项洞察门槛。
+18. 先按子类聚合候选，并判断是否有子类满足方向观察条件。
 19. 在子类内按初筛评分排序，不按固定 Top N 凑数。
-20. 在输出开头给出“本轮方向摘要”：哪些子类强、哪些子类弱、哪些子类达到专项洞察门槛、哪些子类暂不展开以及原因。
-21. 按频道模板输出轻量简报，不默认输出大表格。`ai-infra` 的顺序是：新模型与 agent 产品、新论文趋势、高优先级论文、高优先级开源项目、重要仓库 PR / Release 趋势。`quantization` 的顺序是：新模型与量化 artifact、新论文趋势、高优先级论文、高优先级开源项目、重要仓库 PR / Release 趋势。
-22. 只有当“本轮方向摘要”已经点名某个子类达到门槛时，才补充“专项洞察”。专项洞察要总结方向级信号、共同点、分歧和下一步，而不是重复单条候选。
-23. 如果某个子类本轮信号明显，可以补充专项洞察；证据不足时必须写入“暂不展开的子类及原因”。
+20. 在输出开头给出“本轮方向摘要”：哪些子类强、哪些子类弱、哪些子类满足方向观察条件、哪些子类暂不展开以及原因。
+21. 按频道模板输出轻量简报，不默认输出大表格。`ai-infra` 的顺序是：新模型与 agent 产品、新论文趋势、高优先级论文、高优先级开源项目、重要仓库 PR / Release 趋势。`quantization` 的顺序是：新模型与量化 artifact、新论文趋势、高优先级论文、高优先级开源项目、高价值技术博客 / 工程文章、重要仓库 PR / Release 趋势。
+22. 只有当“本轮方向摘要”已经点名某个子类满足条件时，才补充“方向观察”。方向观察要总结方向级信号、共同点、分歧和下一步，而不是重复单条候选。
+23. 如果某个子类本轮信号明显，可以补充方向观察；证据不足时必须写入“暂不展开的子类及原因”。
 24. 如果用户已有历史表格或明确要求维护历史记录，可以追加“历史表格”；第一版默认只预留，不强制维护。
 25. 如果没有高价值结果，直接说明；只有在有帮助时才列出少量 near-miss。
 
@@ -118,14 +111,14 @@
 - 搜索时间范围和来源范围
 - 本轮频道、读取的 profile、是否读取 tracked-repos / experts / venues、是否展开 full topics / research map、来自配置的主题/查询依据
 - 如用户给出“专项/只看某方向”等领域限定，说明本轮核心子类、软过滤口径和相邻候选保留规则
-- 本轮方向摘要：强信号子类、弱信号子类、达到专项洞察门槛的子类、暂不展开的子类及原因
+- 本轮方向摘要：强信号子类、弱信号子类、满足方向观察条件的子类、暂不展开的子类及原因
 - 按频道模板组织的轻量简报
 - 只列有价值候选
 - 每个候选为什么重要
 - 频道相关的关键信号：量化看数据格式/压缩率/checkpoint/kernel/runtime；infra 看系统层级/性能/扩展性/runtime/repo activity
 - 初筛信号摘要
 - 下一步建议动作
-- 只有满足“专项洞察限制”时才补充专项洞察；否则明确写“本轮无专项洞察”
+- 只有满足方向观察条件时才补充方向观察；否则明确写“本轮无方向观察”
 - 必要时补充历史表格预留
 
 不要写死 “Top N”。可以使用“高价值候选”“值得观察”“本轮无强候选”等标题。

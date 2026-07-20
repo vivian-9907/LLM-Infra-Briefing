@@ -54,9 +54,22 @@
 - 工程落地：checkpoint / kernel / runtime integration / benchmark / prototype
 - 建议动作：`track-code` / `inspect` / `replicate` / `watch`
 
-## 5. 重要仓库 PR / Release 趋势
+## 5. 高价值技术博客 / 工程文章
 
-关注 vLLM、SGLang、TensorRT-LLM、transformers、llama.cpp、FlashInfer、Triton 等仓库和量化相关项目的新 PR、release 和近期 activity。这里写趋势，不堆 commit 列表。
+只放有技术细节、benchmark、release note、实现路径或部署经验的博客/工程文章。过滤纯营销发布。
+
+### {{blog_or_article_title}}
+
+- 链接：
+- 来源：
+- 核心内容：
+- 量化相关信号：format / recipe / calibration / runtime / kernel / benchmark / deployment / model artifact
+- 为什么值得读：
+- 建议动作：`inspect` / `skim` / `update-map` / `watch`
+
+## 6. 重要仓库 PR / Release 趋势
+
+关注 `config/tracked-repos.yml` 中和本频道相关的仓库，以及量化相关项目的新 PR、release 和近期 activity。这里写趋势，不堆 commit 列表。
 
 ### {{repo_or_framework}}
 
@@ -65,7 +78,7 @@
 - 影响：
 - 建议动作：`track-code` / `watch`
 
-## 6. Near Miss / 暂不展开
+## 7. Near Miss / 暂不展开
 
 - {{item}}：为什么暂不展开
 
