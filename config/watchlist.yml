@@ -205,6 +205,53 @@ agent_products:
       - model/runtime update
       - benchmark or eval
 
+  - name: DeepSeek Platform / API
+    organization: DeepSeek
+    aliases:
+      - DeepSeek API
+      - DeepSeek Platform
+      - DeepSeek key
+      - DeepSeek chat
+      - DeepSeek coder
+    watch_for:
+      - API model version
+      - pricing / rate limit / quota change
+      - context length
+      - coding capability
+      - tool-use or agent workflow
+      - OpenAI-compatible API behavior
+      - serving/runtime implication
+
+  - name: Kimi / Kimi Code
+    organization: Moonshot AI
+    aliases:
+      - Kimi
+      - Kimi Code
+      - Moonshot
+      - Moonshot AI
+      - Kimi K2
+    watch_for:
+      - coding agent workflow
+      - long context
+      - model/API version
+      - IDE / CLI / repo workflow
+      - tool-use or agent capability
+      - open weights or model card
+
+  - name: Qwen Code
+    organization: Alibaba
+    aliases:
+      - Qwen Code
+      - Qwen Coder
+      - Qwen coding agent
+      - Tongyi Lingma
+    watch_for:
+      - coding agent workflow
+      - model/API version
+      - IDE / CLI / repo workflow
+      - open weights
+      - benchmark or eval
+
 organizations:
   - OpenAI
   - Anthropic
@@ -212,6 +259,7 @@ organizations:
   - Cognition
   - DeepSeek
   - Alibaba Qwen
+  - Moonshot AI
   - Meta AI
   - Mistral AI
   - Google DeepMind

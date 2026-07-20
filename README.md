@@ -81,7 +81,7 @@ references/channels/<channel>-map.md
 
 - `channels.yml` 是路由表，决定本轮使用哪个频道。
 - `config/channels/<channel>/profile.yml` 是默认入口过滤器，短、轻、省 token。
-- `config/watchlist.yml` 是重点实体表，用于 LongCat、MiMo、DeepSeek、GPT/ChatGPT、Claude、Qwen、Codex、Claude Code、Cursor、vLLM、SGLang 等发布监控。
+- `config/watchlist.yml` 是重点实体表，用于 LongCat、MiMo、DeepSeek、Kimi、GPT/ChatGPT、Claude、Qwen、Codex、Claude Code、Kimi Code、Qwen Code、Cursor、vLLM、SGLang 等发布监控。
 - `topics.full.yml` 和 `references/channels/<channel>-map.md` 是按需展开层，用来处理专项扫描或不确定分类。
 
 ## 状态
