@@ -55,7 +55,7 @@
 
 ## 5. 重要仓库 PR / Release 趋势
 
-关注 vLLM、SGLang、TensorRT-LLM、transformers、llama.cpp、FlashInfer、Triton 等仓库的新 PR、release 和近期 activity。这里写趋势，不堆 commit 列表。
+关注 `config/tracked-repos.yml` 中和本频道相关的仓库，以及 AI infra 相关项目的新 PR、release 和近期 activity。这里写趋势，不堆 commit 列表。
 
 ### {{repo_or_framework}}
 

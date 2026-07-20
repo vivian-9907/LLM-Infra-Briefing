@@ -6,7 +6,7 @@ purpose: >
 
 default_read: false
 read_when:
-  - source_scope includes papers, arxiv, github, technical blogs or repo_activity
+  - source_scope includes papers, arxiv, github, rss, vendor_blogs or repo_activity
   - user asks for work from specific authors, labs, maintainers or research groups
   - candidate attribution is useful for ranking papers, blogs, projects or near-miss candidates
   - a focused scan needs stronger recall than channel profile and watchlist provide

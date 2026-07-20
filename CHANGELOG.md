@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v0.7 - Layered radar sources
 
 - Added `config/experts.yml` for author, maintainer, lab and research-group signal weighting.
 - Added `config/venues.yml` for conference, workshop and benchmark context.

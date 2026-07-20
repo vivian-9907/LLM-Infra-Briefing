@@ -25,7 +25,7 @@ venues:
   - name: MLSys
     primary_channels:
       - ai-infra
-    secondary_channels:
+    related_channels:
       - quantization
     relevance: high
     watch_for:
@@ -68,7 +68,7 @@ venues:
   - name: ASPLOS
     primary_channels:
       - ai-infra
-    secondary_channels:
+    related_channels:
       - quantization
     relevance: medium
     watch_for:
@@ -92,7 +92,7 @@ venues:
   - name: NeurIPS
     primary_channels:
       - quantization
-    secondary_channels:
+    related_channels:
       - ai-infra
     relevance: medium
     watch_for:
@@ -104,7 +104,7 @@ venues:
   - name: ICML
     primary_channels:
       - quantization
-    secondary_channels:
+    related_channels:
       - ai-infra
     relevance: medium
     watch_for:
@@ -116,7 +116,7 @@ venues:
   - name: ICLR
     primary_channels:
       - quantization
-    secondary_channels:
+    related_channels:
       - ai-infra
     relevance: medium
     watch_for:

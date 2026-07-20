@@ -45,7 +45,7 @@
 2. 读取该频道的 `profile.yml`、`config/watchlist.yml`、`config/sources.yml` 和 `config/radar-rubric.yml`。
 3. 用频道 profile 生成主题搜索 query，用 watchlist 扩展每周固定关注实体的搜索 query；watchlist 用于召回和筛选，不代表最终报告必须覆盖每个实体。
 4. 如果 source_scope 包含 github_releases、github_activity、framework_releases 或 repo_activity，读取 `config/tracked-repos.yml`，按当前频道和 repo 的 `source_modes` 过滤出本轮要查的仓库。
-5. 当 source_scope 包含 papers / arxiv / github / technical blogs / repo_activity，用户指定作者/实验室/maintainer，或候选归因有助于排序时，读取 `config/experts.yml` 和/或 `config/venues.yml`。专家和会议只用于 query expansion、venue context、attribution 和 signal weighting，不能替代保留标准；`primary_channels` 命中强于 `related_channels`，后者只作为弱相关信号或排序 tie-breaker。
+5. 当 source_scope 包含 papers / arxiv / github / rss / vendor_blogs / repo_activity，用户指定作者/实验室/maintainer，或候选归因有助于排序时，读取 `config/experts.yml` 和/或 `config/venues.yml`。专家和会议只用于 query expansion、venue context、attribution 和 signal weighting，不能替代保留标准；`primary_channels` 命中强于 `related_channels`，后者只作为弱相关信号或排序 tie-breaker。
 6. 默认不要读取 `topics.full.yml` 和频道 research map；只有在专项扫描、召回不足、分类不确定、需要方向观察或用户明确要求完整覆盖时才展开读取。
 7. 在指定时间范围和来源范围内搜索。
 8. 如果用户给出领域限定，先按“领域限定与软过滤”确定本轮核心子类和允许保留的相邻子类。
@@ -86,7 +86,7 @@
 
 - arXiv：重点看标题、摘要、日期、类别、作者，以及是否有代码。
 - GitHub：优先关注论文关联仓库、kernel/runtime 集成、活跃维护、stars、近期提交和 benchmark 证据。
-- GitHub Releases / repo activity：优先关注 vLLM、SGLang、TensorRT-LLM、transformers、llama.cpp、FlashInfer、Triton、Megatron-LM、DeepSpeed、TransformerEngine、CUTLASS 等项目的模型支持、serving、训练、量化、kernel、PR 趋势和 breaking changes。
+- GitHub Releases / repo activity：优先关注 `config/tracked-repos.yml` 中和本频道相关的仓库，筛选模型支持、serving、训练、量化、kernel、PR 趋势和 breaking changes。
 - Hugging Face：按频道过滤模型卡、paper/project 关联、artifact、benchmark、推理示例和 runtime 使用说明。不要扩展成泛模型能力新闻监控；只保留和本频道目标相关的条目。
 - Model hubs：关注新模型版本、模型卡、context length、架构、license、quantized checkpoint、GGUF/safetensors、runtime 兼容和 benchmark。
 - Vendor blogs：关注官方模型发布、agent 产品更新、技术博客和框架公告；过滤只有营销表述、没有技术细节的普通新闻。
