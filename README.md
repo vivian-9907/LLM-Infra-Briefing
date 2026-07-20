@@ -31,7 +31,9 @@
 │   ├── sources.yml
 │   └── radar-rubric.yml
 ├── templates/
-│   └── radar-result.md
+│   ├── radar-result.md
+│   ├── radar-result-quantization.md
+│   └── radar-result-ai-infra.md
 ├── references/
 │   ├── channels/
 │   │   ├── quantization-map.md
@@ -47,7 +49,7 @@
 - `SKILL.md`：Codex skill 入口，负责触发和选择 `radar` 工作流。
 - `workflows/`：核心 radar 工作流说明。
 - `config/`：频道配置、固定研究范围、信息来源和 radar 初筛标准。
-- `templates/`：雷达结果模板。
+- `templates/`：雷达结果模板；量化和 infra 有各自的频道模板，通用模板作为 fallback。
 - `references/`：频道研究地图和输出风格约束。
 - `outputs/`：按频道保存实际运行后的 radar 结果。
 - `agents/`：Codex UI 元数据。
@@ -56,7 +58,7 @@
 
 ```text
 channels.yml
-  └─ 决定本轮 radar 使用哪个频道、轻量 profile、完整 topics、研究地图和输出目录
+  └─ 决定本轮 radar 使用哪个频道、轻量 profile、完整 topics、研究地图、结果模板和输出目录
 
 sources.yml
   └─ 决定 radar 去哪里搜，包括 arXiv、GitHub、GitHub Releases、Hugging Face、模型发布页、RSS 和厂商博客
@@ -75,6 +77,9 @@ radar-rubric.yml
 
 references/channels/<channel>-map.md
   └─ 只在需要解释方向、写专项洞察或分类不确定时读取
+
+templates/radar-result-<channel>.md
+  └─ 决定本频道最终报告形态；量化强调数据格式/压缩率/精度/落地，infra 强调系统层级/性能/扩展性/runtime
 ```
 
 简短理解：

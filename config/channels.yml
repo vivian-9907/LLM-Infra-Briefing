@@ -8,6 +8,7 @@ channels:
     profile: config/channels/quantization/profile.yml
     topics_full: config/channels/quantization/topics.full.yml
     research_map: references/channels/quantization-map.md
+    template: templates/radar-result-quantization.md
     outputs:
       radar: outputs/quantization/radar
 
@@ -16,5 +17,6 @@ channels:
     profile: config/channels/ai-infra/profile.yml
     topics_full: config/channels/ai-infra/topics.full.yml
     research_map: references/channels/ai-infra-map.md
+    template: templates/radar-result-ai-infra.md
     outputs:
       radar: outputs/ai-infra/radar

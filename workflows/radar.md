@@ -56,7 +56,8 @@
 6. 如果用户给出领域限定，先按“领域限定与软过滤”确定本轮核心子类和允许保留的相邻子类。
 7. 先用频道 profile、watchlist 和 `config/radar-rubric.yml` 的 `prefilter_gates` 做主题过滤；未通过过滤的条目直接丢弃或标记为 `ignore`。
 8. 对领域限定场景，再用软过滤判断条目是核心候选、相邻候选还是应过滤条目；相邻候选必须能解释其关系。
-9. 将通过过滤的结果整理成 Discover Card：
+9. 读取本频道在 `config/channels.yml` 中配置的 `template`；如果未配置，则使用 `templates/radar-result.md` 作为 fallback。
+10. 将通过过滤的结果整理成 Discover Card：
    - 标题
    - 链接
    - 来源
@@ -71,19 +72,19 @@
    - 证据
    - 初筛信号摘要
    - 建议动作
-10. 丢弃明显过时、浅层或只有营销信息的低信号条目。
-11. 对 `quantization` 频道的 `long_context_mechanisms_for_compression` 这类相邻机制/挑战标签，只有在候选明确连接到量化、KV cache 压缩、serving、activation outlier、memory 或 inference efficiency 时才保留；否则过滤或标为 `ignore`。
-12. 对 `quantization` 频道的 `multimodal_quantization` 这类多模态标签，优先保留明确涉及 VLM/MLLM/LVLM、视觉/视频/语音 encoder、modality projector、cross-modal attention、visual tokens、多模态 KV cache、DiT/diffusion transformer、serving/runtime 或 kernel 的候选；纯图像压缩、传统视频 codec 或和 LLM/transformer 推理无关的图像量化应过滤。
-13. 对综述/benchmark/taxonomy，只在它明确聚焦本频道核心范围时保留；主要建议动作为 `skim`、`inspect` 或 `update-map`。
-14. 对模型发布、agent 产品更新和框架 release，结合 watchlist 判断是否属于重点实体；只有当它包含模型版本、架构、context length、runtime 支持、量化 artifact、benchmark、kernel、兼容性信息、agent 工作流变化、工具调用能力、IDE/CLI/GitHub 集成或权限/沙箱变化时才保留。
-15. 先按子类聚合候选，并按“专项洞察限制”判断是否有子类达到专项洞察门槛。
-16. 在子类内按初筛评分排序，不按固定 Top N 凑数。
-17. 在输出开头给出“本轮方向摘要”：哪些子类强、哪些子类弱、哪些子类达到专项洞察门槛、哪些子类暂不展开以及原因。
-18. 输出候选总览表，便于快速比较不同方向的时间、工作、类型、数据格式/压缩率、核心技术、意义和落地状态。
-19. 只有当“本轮方向摘要”已经点名某个子类达到门槛时，才补充“专项洞察”。专项洞察要总结方向级信号、共同点、分歧和下一步，而不是重复单条候选。
-20. 如果某个子类本轮信号明显，可以补充专项洞察；证据不足时必须写入“暂不展开的子类及原因”。
-21. 如果用户已有历史表格或明确要求维护历史记录，可以追加“历史表格”；第一版默认只预留，不强制维护。
-22. 如果没有高价值结果，直接说明；只有在有帮助时才列出少量 near-miss。
+11. 丢弃明显过时、浅层或只有营销信息的低信号条目。
+12. 对 `quantization` 频道的 `long_context_mechanisms_for_compression` 这类相邻机制/挑战标签，只有在候选明确连接到量化、KV cache 压缩、serving、activation outlier、memory 或 inference efficiency 时才保留；否则过滤或标为 `ignore`。
+13. 对 `quantization` 频道的 `multimodal_quantization` 这类多模态标签，优先保留明确涉及 VLM/MLLM/LVLM、视觉/视频/语音 encoder、modality projector、cross-modal attention、visual tokens、多模态 KV cache、DiT/diffusion transformer、serving/runtime 或 kernel 的候选；纯图像压缩、传统视频 codec 或和 LLM/transformer 推理无关的图像量化应过滤。
+14. 对综述/benchmark/taxonomy，只在它明确聚焦本频道核心范围时保留；主要建议动作为 `skim`、`inspect` 或 `update-map`。
+15. 对模型发布、agent 产品更新和框架 release，结合 watchlist 判断是否属于重点实体；只有当它包含模型版本、架构、context length、runtime 支持、量化 artifact、benchmark、kernel、兼容性信息、agent 工作流变化、工具调用能力、IDE/CLI/GitHub 集成或权限/沙箱变化时才保留。
+16. 先按子类聚合候选，并按“专项洞察限制”判断是否有子类达到专项洞察门槛。
+17. 在子类内按初筛评分排序，不按固定 Top N 凑数。
+18. 在输出开头给出“本轮方向摘要”：哪些子类强、哪些子类弱、哪些子类达到专项洞察门槛、哪些子类暂不展开以及原因。
+19. 输出候选总览表，便于快速比较不同方向的时间、工作、类型、核心技术、意义、证据和落地状态。
+20. 只有当“本轮方向摘要”已经点名某个子类达到门槛时，才补充“专项洞察”。专项洞察要总结方向级信号、共同点、分歧和下一步，而不是重复单条候选。
+21. 如果某个子类本轮信号明显，可以补充专项洞察；证据不足时必须写入“暂不展开的子类及原因”。
+22. 如果用户已有历史表格或明确要求维护历史记录，可以追加“历史表格”；第一版默认只预留，不强制维护。
+23. 如果没有高价值结果，直接说明；只有在有帮助时才列出少量 near-miss。
 
 ## 来源说明
 
@@ -108,7 +109,7 @@
 
 ## 必需输出
 
-使用 `templates/radar-result.md`。必须包含：
+优先使用频道配置的模板：`quantization` 使用 `templates/radar-result-quantization.md`，`ai-infra` 使用 `templates/radar-result-ai-infra.md`。如果频道没有配置模板，再使用 `templates/radar-result.md`。必须包含：
 
 - 搜索时间范围和来源范围
 - 本轮频道、读取的 profile、是否展开 full topics / research map、来自配置的主题/查询依据
