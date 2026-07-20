@@ -1,0 +1,183 @@
+version: 1
+channel: ai-infra
+scope_note: >
+  固定研究范围：AI infrastructure / LLM infrastructure，包括模型架构、
+  训练与推理系统、serving/runtime、调度、KV cache、speculative decoding、
+  MoE、通信并行、kernel/operator、硬件亲和和端到端性能分析。
+
+core_topics:
+  serving_and_runtime:
+    description: LLM serving、runtime、推理框架、吞吐/延迟优化和生产部署。
+    include:
+      - vLLM
+      - SGLang
+      - TensorRT-LLM
+      - llama.cpp
+      - inference engine
+      - inference server
+      - serving
+      - continuous batching
+      - paged attention
+      - chunked prefill
+      - prefix cache
+      - disaggregated serving
+      - KV cache
+      - scheduler
+      - TTFT
+      - TPOT
+    synonyms:
+      - LLM serving
+      - runtime system
+      - inference runtime
+
+  speculative_decoding:
+    description: 投机推理、draft/target 协同、并行验证和解码加速。
+    include:
+      - speculative decoding
+      - speculative inference
+      - draft model
+      - target model verification
+      - tree attention
+      - EAGLE
+      - Medusa
+      - lookahead decoding
+      - multi-token prediction
+      - MTP
+      - parallel decoding
+    synonyms:
+      - spec decode
+      - draft verification
+
+  moe_systems:
+    description: MoE 架构、expert parallel、通信掩盖、路由、MegaMoE/DeepEP 类系统优化。
+    include:
+      - mixture of experts
+      - MoE
+      - expert parallelism
+      - expert parallel
+      - all-to-all
+      - dispatch
+      - combine
+      - DeepEP
+      - MegaMoE
+      - grouped GEMM
+      - expert routing
+      - load balancing
+      - expert placement
+      - EP overlap
+      - communication overlap
+    synonyms:
+      - sparse expert system
+      - MoE serving
+      - MoE training
+
+  training_systems:
+    description: 训练系统、并行策略、checkpoint、optimizer/sharding 和 step-time 优化。
+    include:
+      - distributed training
+      - data parallelism
+      - tensor parallelism
+      - pipeline parallelism
+      - sequence parallelism
+      - FSDP
+      - ZeRO
+      - Megatron
+      - DeepSpeed
+      - checkpointing
+      - activation checkpointing
+      - optimizer sharding
+      - step time
+      - MFU
+    synonyms:
+      - training infra
+      - large scale training
+
+  communication_and_parallelism:
+    description: 通信、并行、collective、拓扑亲和和 overlap。
+    include:
+      - NCCL
+      - collective communication
+      - all reduce
+      - all gather
+      - reduce scatter
+      - all-to-all
+      - topology aware
+      - communication overlap
+      - network topology
+      - NVLink
+      - InfiniBand
+      - HCCL
+      - parallelism
+    synonyms:
+      - comm overlap
+      - distributed systems
+
+  kernels_and_operators:
+    description: Attention、GEMM、MoE、Norm、RoPE、quant/dequant 等算子实现和融合优化。
+    include:
+      - CUDA kernel
+      - Triton kernel
+      - operator fusion
+      - fused kernel
+      - FlashAttention
+      - FlashInfer
+      - CUTLASS
+      - GEMM
+      - grouped GEMM
+      - matmul
+      - RMSNorm
+      - RoPE
+      - dequantization
+      - memory bandwidth
+      - tensor core
+      - custom operator
+    synonyms:
+      - kernel optimization
+      - operator implementation
+
+  model_architecture_for_infra:
+    description: 会改变系统瓶颈或算子形态的新模型结构。
+    include:
+      - Transformer architecture
+      - attention mechanism
+      - sparse attention
+      - linear attention
+      - state space model
+      - Mamba
+      - MLA
+      - GQA
+      - MQA
+      - RoPE
+      - long context
+      - memory layer
+      - lookup memory
+      - n-gram embedding
+    synonyms:
+      - architecture infra impact
+      - systems-aware architecture
+
+  performance_analysis:
+    description: 端到端性能分析、profiling、benchmark、瓶颈定位和指标体系。
+    include:
+      - profiling
+      - benchmark
+      - end-to-end performance
+      - bottleneck analysis
+      - roofline
+      - latency breakdown
+      - throughput
+      - TTFT
+      - TPOT
+      - P99
+      - memory footprint
+      - utilization
+      - MFU
+    synonyms:
+      - performance engineering
+      - systems benchmark
+
+exclude:
+  - pure model capability news without systems detail
+  - product launch without technical evidence
+  - generic AI agent workflow without infra/runtime relevance
+  - pure application layer prompt engineering

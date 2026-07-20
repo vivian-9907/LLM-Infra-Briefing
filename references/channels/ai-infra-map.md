@@ -1,0 +1,65 @@
+# AI Infra Research Map
+
+Use this map to tag radar candidates and organize deep-read reports for AI /
+LLM infrastructure. The focus is systems value, not generic model news.
+
+## Technical Directions
+
+- Serving/runtime: vLLM, SGLang, TensorRT-LLM, llama.cpp, continuous batching,
+  paged attention, chunked prefill, prefix cache, disaggregated serving.
+- Speculative decoding: draft model, target verification, tree attention,
+  multi-token prediction, EAGLE/Medusa/lookahead-style decoding.
+- MoE systems: expert parallelism, dispatch/combine, all-to-all, grouped GEMM,
+  expert placement, MegaMoE/DeepEP-style communication-compute overlap.
+- Training systems: distributed training, DP/TP/PP/SP, FSDP/ZeRO, checkpointing,
+  optimizer sharding, step-time and MFU optimization.
+- Communication and parallelism: collectives, topology awareness, overlap,
+  NVLink/InfiniBand/HCCL/NCCL behavior.
+- Kernels/operators: attention, GEMM, MoE, RoPE, norm, quant/dequant, fused
+  kernels, Triton/CUDA/CUTLASS implementation paths.
+- Architecture with infra impact: sparse attention, MLA/GQA/MQA, state-space
+  models, lookup memory, long-context mechanisms and model structures that
+  change runtime shape or bottlenecks.
+- Performance analysis: profiling, benchmark design, TTFT/TPOT/P99, memory
+  footprint, throughput, utilization, bottleneck analysis.
+
+## Retention Criteria
+
+Keep a candidate only when it has at least one strong systems signal:
+
+- Concrete runtime, framework, kernel, communication, hardware or benchmark
+  evidence.
+- Clear impact on serving/training latency, throughput, memory, cost or
+  scalability.
+- Code, artifact, reproducible benchmark, release note with technical detail,
+  or a paper with enough implementation evidence.
+- A model architecture change that directly affects compute graph, memory,
+  communication, scheduling or operator shape.
+
+Filter generic capability news, launch announcements and application-layer
+agent/prompt workflows unless they include concrete infra implications.
+
+## Maturity Stages
+
+- concept: interesting systems idea, limited evidence.
+- experimental: enough detail for a small reproduction.
+- reproducible: code, config, benchmark or implementation details are available.
+- integrable: clear path into known runtime/framework/kernel stacks.
+- production-grade: strong benchmark, stable implementation and hardware/runtime
+  path.
+
+## Operator / Runtime Tags
+
+- serving-runtime
+- scheduler
+- kv-cache
+- speculative-decoding
+- moe-runtime
+- communication-overlap
+- distributed-training
+- kernel-optimization
+- operator-fusion
+- memory-bandwidth
+- hardware-portability
+- benchmark-design
+- end-to-end-performance

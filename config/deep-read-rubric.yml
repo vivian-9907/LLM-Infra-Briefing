@@ -1,0 +1,86 @@
+version: 1
+scale: 0_to_5
+purpose: >
+  用于 deep-read 工作流的深度评估。此阶段可以阅读论文全文、实验、
+  附录和代码，因此要从用户真正关心的技术维度切入，而不是只做摘要。
+
+consumption:
+  scorecard: 在 `templates/paper-scorecard.md` 中逐项给 0-5 分，并用一句证据解释，形成论文的多维画像。
+  focus_selection: 用分数和证据判断这篇论文的价值侧重，而不是判断是否还要读。
+  analysis_allocation: 高分维度决定正文分析重点；低分维度决定风险、薄弱点和下一步验证问题。
+  reader_display: 评分卡需要让读者快速看到这项工作在问题价值、算法、量化时机、工程、runtime、算子、实验、模型覆盖和复现性上的强弱分布。
+  not_strict_math: 权重表达偏好和优先级，不要求机械计算总分；最终判断必须以证据为准。
+
+dimensions:
+  problem_importance:
+    weight: 1.2
+    high: 解决 LLM 量化里的真实痛点，例如低 bit 精度损失、KV cache 内存、serving 延迟、部署成本或训练/finetuning 内存。
+    low: 问题价值不清楚，或只是包装已有问题。
+
+  algorithmic_novelty:
+    weight: 1.1
+    high: 提出有意义的新方法、新目标、新 calibration 策略、新 layout、新训练方式或新系统协同思路。
+    low: 基本套用已有方法，没有清晰新 insight。
+
+  quantization_fit:
+    weight: 1.1
+    high: 明确属于 PTQ、QAT、optimizer quantization、weight-only、weight-activation、KV cache quantization、KV cache non-quant compression、FP8/INT8/INT4/FP4/MXFP4/NVFP4、1-bit/2-bit、balanced/outlier-aware quantization、rotation/transform-based、mixed precision、sparse/low-rank、multimodal quantization、visual token compression、DiT quantization 或 serving-aware quantization 等方向，且定位准确。
+    low: 量化定位模糊，或和 LLM quantization 关系很弱。
+
+  quantization_timing:
+    weight: 1.0
+    high: 清楚分析方案是离线量化、在线量化还是混合方案，并说明对 latency、吞吐、显存、calibration、packing 和 serving 集成的影响。
+    low: 没有说明量化发生在部署前、训练/finetuning 中、推理时还是 runtime 动态过程中。
+
+  scenario_fit:
+    weight: 1.0
+    high: 清楚说明适用场景，例如推理、训练、finetuning、serving、长上下文、边缘部署、MoE、多模态/全模态。
+    low: 不清楚该用在什么 LLM workflow 中。
+
+  engineering_maturity:
+    weight: 1.2
+    high: 有实现细节、代码、配置、benchmark、限制说明或工程集成路径。
+    low: 只有概念，缺少工程路径。
+
+  serving_runtime_fit:
+    weight: 1.2
+    high: 支持或能清晰映射到 vLLM、SGLang、TensorRT-LLM、llama.cpp、Triton/CUDA kernel 或生产 serving。
+    low: runtime 改动不清楚，或只在离线 toy setting 中有效。
+
+  operator_kernel_value:
+    weight: 1.3
+    high: 对 kernel、算子、packing layout、dequantization、访存带宽、算子融合、硬件映射或 benchmark 设计有明确价值。
+    low: 对算子/kernel/runtime 从业者没有明显启发或落地价值。
+
+  experiment_solidness:
+    weight: 1.3
+    high: baseline、ablation、指标、任务、模型规模、workload 和结论支撑都扎实。
+    low: baseline 薄、ablation 缺失、模型 cherry-pick，或结论强于实验。
+
+  model_coverage:
+    weight: 1.0
+    high: 覆盖多个模型规模、家族或模态，或清楚解释为什么覆盖范围较窄；多模态工作应说明 language backbone、vision/audio/video encoder、projector 或生成模块的覆盖边界。
+    low: 只覆盖一个小模型或过时模型，且没有合理解释。
+
+  reproducibility:
+    weight: 1.0
+    high: 代码、数据、配置、checkpoint 可得，或论文细节足以复现。
+    low: 没有代码，实现细节也不足。
+
+  practical_value:
+    weight: 1.3
+    high: 对真实推理、训练、finetuning、serving、长上下文、边缘部署、MoE 或多模态系统有实际价值。
+    low: 很难连接到真实 LLM 系统。
+
+  evidence_risk:
+    weight: -0.8
+    high: 结论强于证据、benchmark 薄、baseline 不充分、关键实验缺失、实现细节不足或很难复现。
+    low: 结论克制，实验和实现证据可信。
+
+focus_guidance:
+  reproduce_experiment: 方法有价值且足够可复现，适合做小实验或复现实验。
+  inspect_code_or_kernel: 代码、runtime、kernel 或 layout 价值明显，适合继续看实现。
+  operator_insight: 对算子/kernel/runtime 从业者有启发，适合沉淀工程和算子侧经验。
+  experiment_reference: 实验设计扎实，适合作为 baseline、benchmark 或评测方法参考。
+  conceptual_reference: 算法思想有启发，但工程或实验证据暂时不足，适合作为概念参考。
+  monitor_followup: 有潜力但还不成熟，适合等待代码、实验或后续版本。

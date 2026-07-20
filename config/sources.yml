@@ -1,0 +1,95 @@
+version: 1
+
+source_groups:
+  all:
+    - arxiv
+    - github
+    - huggingface
+    - rss
+  papers:
+    - arxiv
+    - rss
+  code:
+    - github
+    - huggingface
+    - rss
+  artifacts:
+    - huggingface
+    - github
+
+sources:
+  arxiv:
+    type: api
+    base_url: https://export.arxiv.org/api/query
+    preferred_categories:
+      - cs.LG
+      - cs.CL
+      - cs.AI
+      - cs.DC
+      - cs.PF
+    search_fields:
+      - title
+      - abstract
+    notes: 只使用配置主题搜索。优先关注近期论文、有代码、系统证据充分或实验扎实的工作。
+
+  github:
+    type: api_or_web
+    base_url: https://api.github.com/search/repositories
+    sort_preferences:
+      - updated
+      - stars
+    notes: 优先关注论文关联仓库、量化 kernel、runtime 集成、活跃项目和有 benchmark 支撑的实现。
+
+  huggingface:
+    type: hub_or_web
+    base_url: https://huggingface.co
+    search_targets:
+      - models
+      - datasets
+      - papers
+      - spaces
+    candidate_signals:
+      - quantized checkpoint
+      - model card
+      - safetensors
+      - GGUF
+      - GPTQ
+      - AWQ
+      - EXL2
+      - FP8
+      - FP4
+      - MXFP4
+      - NVFP4
+      - INT8
+      - INT4
+      - benchmark
+      - inference example
+      - vLLM
+      - SGLang
+      - TensorRT-LLM
+      - llama.cpp
+    notes: 关注 Hugging Face Hub 上的量化 checkpoint、模型卡、paper/project 关联、artifact、benchmark 和推理/runtime 使用说明。不要把它扩展成泛模型能力新闻监控；只保留和 LLM 量化、压缩、serving、runtime 或 kernel 落地相关的条目。
+
+  rss:
+    type: rss
+    feeds:
+      - name: NVIDIA technical blog
+        url: https://developer.nvidia.com/blog/feed
+      - name: Hugging Face blog
+        url: https://huggingface.co/blog/feed.xml
+    candidate_pages:
+      - name: vLLM blog
+        url: https://vllm.ai/blog
+        note: 除非发现当前可用 RSS/Atom feed，否则按普通页面来源处理。
+      - name: SGLang / LMSYS blog
+        url: https://lmsys.org/blog/
+        note: 除非发现当前可用 RSS/Atom feed，否则按普通页面来源处理。
+    notes: RSS 用来接入实验室、公司、博客和工程团队更新。只有技术相关且信息充分的条目才保留。
+
+future_sources:
+  - name: SSRN
+    reason: 可能包含 working paper，但第一版优先做更容易自动化的技术来源。
+  - name: PapersWithCode
+    reason: 适合补充论文、代码和 benchmark 关联。
+  - name: selected_official_release_notes
+    reason: 仅在用户明确要求时关注少量官方 release notes；默认不做各大模型官网或厂商新闻监控。
