@@ -11,6 +11,22 @@
 
 - `radar <channel>`：在指定频道的固定研究范围内，按时间和来源搜索论文/项目/博客/artifact，只输出真正有价值的候选。
 
+## 使用示例
+
+在 Codex 中启用这个 skill 后，可以直接用自然语言触发：
+
+```text
+radar quantization 本周
+radar ai-infra 过去 30 天
+radar quantization 只看 KV cache compression
+radar ai-infra 只查 framework releases
+radar ai-infra 只看 agent products 和 repo activity
+```
+
+常规运行默认读取频道 `profile`、`watchlist`、`sources` 和 `radar-rubric`。只有在专项扫描、召回不足、分类不确定或用户要求完整覆盖时，才展开 `topics.full.yml` 和频道 research map。
+
+如果需要保存结果，写入 `outputs/<channel>/radar/`。生成的 Markdown 报告默认不提交到 git，目录中的 `.gitkeep` 只用于保留输出路径。
+
 ## 项目目录
 
 ```text
@@ -92,3 +108,5 @@ templates/radar-result-<channel>.md
 ## 状态
 
 当前是 v0.6 lightweight infra briefing baseline。默认读取 profile 和 watchlist；需要时再展开完整 topics 和 research map。
+
+版本演进记录见 [CHANGELOG.md](CHANGELOG.md)。

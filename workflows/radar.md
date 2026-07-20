@@ -105,6 +105,7 @@
 - `skim`：可能有用，但证据较弱。
 - `inspect`：值得后续人工检查、代码检查或单独技术分析的强候选。
 - `track-code`：主要价值在实现、runtime 集成或代码。
+- `replicate`：实验、benchmark、artifact 或代码路径足够明确，值得后续复现或跑通最小验证。
 - `watch`：有潜力但还不成熟，等待代码、实验或后续版本。
 - `update-map`：主要价值在更新研究地图、关键词、benchmark 视角或评分标准，常用于综述、taxonomy、benchmark 或 position paper。
 

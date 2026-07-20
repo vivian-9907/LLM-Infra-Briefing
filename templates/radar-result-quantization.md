@@ -40,7 +40,7 @@
 - 作用对象：weight / activation / KV cache / optimizer / multimodal / kernel / serving
 - 数据格式/压缩率：
 - 证据：accuracy / perplexity / latency / memory / benchmark / code / 未充分
-- 建议动作：`inspect` / `skim` / `watch`
+- 建议动作：`inspect` / `replicate` / `skim` / `watch`
 
 ## 4. 高优先级开源项目
 
@@ -52,7 +52,7 @@
 - 做什么：
 - 亮点：
 - 工程落地：checkpoint / kernel / runtime integration / benchmark / prototype
-- 建议动作：`track-code` / `inspect` / `watch`
+- 建议动作：`track-code` / `inspect` / `replicate` / `watch`
 
 ## 5. 重要仓库 PR / Release 趋势
 

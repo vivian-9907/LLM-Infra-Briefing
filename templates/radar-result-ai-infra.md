@@ -39,7 +39,7 @@
 - 主要内容：
 - 系统层级：serving / runtime / training / MoE / communication / kernel / agent workflow
 - 证据：benchmark / artifact / code / strong abstract / 未充分
-- 建议动作：`inspect` / `skim` / `watch`
+- 建议动作：`inspect` / `replicate` / `skim` / `watch`
 
 ## 4. 高优先级开源项目
 
@@ -51,7 +51,7 @@
 - 做什么：
 - 亮点：
 - 成熟度：prototype / active repo / release / production signal
-- 建议动作：`track-code` / `inspect` / `watch`
+- 建议动作：`track-code` / `inspect` / `replicate` / `watch`
 
 ## 5. 重要仓库 PR / Release 趋势
 

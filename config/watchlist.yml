@@ -24,6 +24,21 @@ search_policy:
     - Use watchlist terms to expand weekly search queries, not only as a post-filter.
     - Do not force every watched entity into the final report; report only high-signal changes.
 
+maintenance_notes:
+  review_frequency: monthly or when a watched ecosystem changes materially
+  entity_budget:
+    model_families: keep only families with repeated infra, quantization, model-card or runtime signal
+    agent_products: keep only products with technical changelogs, coding/research workflow changes, or platform/runtime implications
+    frameworks: keep only repos whose releases or PR activity affect serving, quantization, kernels, training systems, MoE or compatibility
+  add_when:
+    - official release notes or model cards appear repeatedly in radar results
+    - the entity affects serving/runtime, quantization artifacts, agent workflow, tooling, benchmarks or deployment
+    - the entity is important enough to deserve query expansion even when no final report item is forced
+  remove_or_demote_when:
+    - no high-signal update appears for multiple review cycles
+    - updates are mostly marketing without model card, artifact, benchmark, release note or code evidence
+    - the entity drifts outside quantization, AI infra, serving/runtime, model deployment or agent tooling
+
 model_families:
   - name: GPT / ChatGPT
     organization: OpenAI
