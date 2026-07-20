@@ -92,35 +92,35 @@ venues:
   - name: NeurIPS
     primary_channels:
       - quantization
-    related_channels:
       - ai-infra
     relevance: medium
     watch_for:
       - LLM quantization
+      - model compression
       - efficient training
-      - compression
-      - systems benchmark
+      - ML systems
+      - benchmark
 
   - name: ICML
     primary_channels:
       - quantization
-    related_channels:
       - ai-infra
     relevance: medium
     watch_for:
       - LLM quantization
       - efficient inference
       - training efficiency
+      - optimization
       - benchmark
 
   - name: ICLR
     primary_channels:
       - quantization
-    related_channels:
       - ai-infra
     relevance: medium
     watch_for:
       - quantization methods
       - compression
       - efficient architecture
+      - scaling behavior
       - reproducible benchmark
