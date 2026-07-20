@@ -9,6 +9,7 @@ source_groups:
     - github_releases
     - model_hubs
     - vendor_blogs
+    - github_activity
   agent_products:
     - vendor_blogs
     - github
@@ -38,6 +39,9 @@ source_groups:
   framework_releases:
     - github_releases
     - rss
+  repo_activity:
+    - github_activity
+    - github_releases
 
 sources:
   arxiv:
@@ -93,6 +97,38 @@ sources:
       - benchmark
       - breaking change
     notes: 跟踪框架和 kernel 项目的 release。只保留和模型支持、serving/runtime、量化、kernel、性能或兼容性相关的版本变化。
+
+  github_activity:
+    type: api_or_web
+    base_url: https://api.github.com/search/issues
+    tracked_repositories:
+      - name: vLLM
+        repo: vllm-project/vllm
+      - name: SGLang
+        repo: sgl-project/sglang
+      - name: TensorRT-LLM
+        repo: NVIDIA/TensorRT-LLM
+      - name: transformers
+        repo: huggingface/transformers
+      - name: llama.cpp
+        repo: ggml-org/llama.cpp
+      - name: FlashInfer
+        repo: flashinfer-ai/flashinfer
+      - name: Triton
+        repo: triton-lang/triton
+    candidate_signals:
+      - merged PR
+      - active PR cluster
+      - new model support
+      - quantization
+      - kernel
+      - KV cache
+      - MoE
+      - speculative decoding
+      - batching
+      - performance regression or fix
+      - breaking change
+    notes: 跟踪重要推理、训练、算子和 runtime 仓库的近期 PR / issue / merge 趋势。输出趋势，不堆 commit 或 PR 列表；只保留和模型支持、量化、serving、kernel、性能、兼容性或 breaking change 有关的变化。
 
   huggingface:
     type: hub_or_web

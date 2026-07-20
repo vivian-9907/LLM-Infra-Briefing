@@ -1,6 +1,6 @@
 # Research Radar
 
-这是一个给 Codex 使用的轻量研究雷达 skill，用来按固定知识源、频道 profile、重点 watchlist 和评分标准发现新论文、新项目、模型发布、agent 产品更新、框架 release 和高价值技术资料。
+这是一个给 Codex 使用的轻量研究雷达 skill，用来按固定知识源、频道 profile、重点 watchlist 和评分标准发现新论文、新项目、模型发布、agent 产品更新、框架 release、重要仓库 activity 和高价值技术资料，并输出周报式简报。
 
 当前支持两个频道：
 
@@ -61,7 +61,7 @@ channels.yml
   └─ 决定本轮 radar 使用哪个频道、轻量 profile、完整 topics、研究地图、结果模板和输出目录
 
 sources.yml
-  └─ 决定 radar 去哪里搜，包括 arXiv、GitHub、GitHub Releases、Hugging Face、模型发布页、RSS 和厂商博客
+  └─ 决定 radar 去哪里搜，包括 arXiv、GitHub、GitHub Releases / repo activity、Hugging Face、模型发布页、RSS 和厂商博客
 
 watchlist.yml
   └─ 常规 radar 每次读取；维护“重点盯谁”，包括模型、agent 产品、机构和框架，不是 source 列表
@@ -79,7 +79,7 @@ references/channels/<channel>-map.md
   └─ 只在需要解释方向、写专项洞察或分类不确定时读取
 
 templates/radar-result-<channel>.md
-  └─ 决定本频道最终报告形态；量化强调数据格式/压缩率/精度/落地，infra 强调系统层级/性能/扩展性/runtime
+  └─ 决定本频道最终简报形态；量化强调量化 artifact、数据格式/压缩率/精度/落地，infra 强调模型/agent、系统层级/性能/扩展性/runtime/repo activity
 ```
 
 简短理解：
