@@ -8,7 +8,6 @@ channels:
     research_map: references/channels/quantization-map.md
     outputs:
       radar: outputs/quantization/radar
-      deep_read: outputs/quantization/deep-read
 
   ai-infra:
     description: LLM infrastructure, serving/runtime, training systems, MoE, communication, kernels, hardware affinity and performance analysis.
@@ -16,4 +15,3 @@ channels:
     research_map: references/channels/ai-infra-map.md
     outputs:
       radar: outputs/ai-infra/radar
-      deep_read: outputs/ai-infra/deep-read

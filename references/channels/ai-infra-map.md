@@ -1,7 +1,7 @@
 # AI Infra Research Map
 
-Use this map to tag radar candidates and organize deep-read reports for AI /
-LLM infrastructure. The focus is systems value, not generic model news.
+Use this map to tag radar candidates for AI / LLM infrastructure. The focus is
+systems value, not generic model news.
 
 ## Technical Directions
 

@@ -45,7 +45,7 @@ dimensions:
     low: 范围清晰，证据可信。
 
 recommendation_guidance:
-  deep-read: 已通过主题过滤，摘要/README 的技术信息量高，并且效果或实用价值至少有一个强信号。
+  inspect: 已通过主题过滤，摘要/README 的技术信息量高，并且效果或实用价值至少有一个强信号，值得后续人工检查、看代码或单独技术分析。
   track-code: 开源实现或 runtime 集成是主要价值，值得后续看代码。
   skim: 有一定价值但证据不够强，只值得快速浏览。
   watch: 有潜力但缺代码、缺指标或还不成熟。

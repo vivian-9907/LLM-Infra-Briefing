@@ -27,7 +27,7 @@
 
 | 子类 | 时间 | 工作 | 类型 | 数据格式/压缩率 | 核心技术 | 意义/评价 | kernel/artifact 落地状态 | 建议动作 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|  |  |  | 论文 / 项目 / 博客 / benchmark |  |  |  |  | `deep-read` / `track-code` / `replicate` / `watch` / `ignore` |
+|  |  |  | 论文 / 项目 / 博客 / benchmark |  |  |  |  | `inspect` / `track-code` / `replicate` / `watch` / `ignore` |
 
 ## 分方向候选详情
 
@@ -47,7 +47,7 @@
 - 为什么重要：
 - 证据：
 - 初筛信号摘要：
-- 建议动作：`deep-read` / `track-code` / `replicate` / `watch` / `ignore`
+- 建议动作：`inspect` / `track-code` / `replicate` / `watch` / `ignore`
 
 ## 专项洞察（可选）
 

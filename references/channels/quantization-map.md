@@ -1,6 +1,6 @@
 # LLM 量化研究地图
 
-用这份研究地图给 radar 候选和 deep-read 报告打标签。这里的“量化”指 LLM quantization，不是金融量化。
+用这份研究地图给 radar 候选打标签。这里的“量化”指 LLM quantization，不是金融量化。
 
 ## 技术方向
 

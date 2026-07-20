@@ -44,7 +44,7 @@
 - 只能从标题猜测，没有摘要、README、benchmark、代码或其他证据支持。
 - 需要阅读全文才能判断，但本轮 radar 只看到了标题/摘要/项目简介。
 
-专项洞察最多展开 1-3 个子类。每个专项洞察必须说明触发依据、代表工作、共同点、分歧或不确定性、置信度和下一步动作。它不能替代 `deep-read`，也不能写成单篇论文摘要。
+专项洞察最多展开 1-3 个子类。每个专项洞察必须说明触发依据、代表工作、共同点、分歧或不确定性、置信度和下一步动作。它不能写成单篇论文摘要。
 
 ## 执行步骤
 
@@ -72,7 +72,7 @@
 8. 丢弃明显过时、浅层或只有营销信息的低信号条目。
 9. 对 `quantization` 频道的 `long_context_mechanisms_for_compression` 这类相邻机制/挑战标签，只有在候选明确连接到量化、KV cache 压缩、serving、activation outlier、memory 或 inference efficiency 时才保留；否则过滤或标为 `ignore`。
 10. 对 `quantization` 频道的 `multimodal_quantization` 这类多模态标签，优先保留明确涉及 VLM/MLLM/LVLM、视觉/视频/语音 encoder、modality projector、cross-modal attention、visual tokens、多模态 KV cache、DiT/diffusion transformer、serving/runtime 或 kernel 的候选；纯图像压缩、传统视频 codec 或和 LLM/transformer 推理无关的图像量化应过滤。
-11. 对综述/benchmark/taxonomy，只在它明确聚焦本频道核心范围时保留；主要建议动作为 `skim`、`deep-read` 或 `update-map`。
+11. 对综述/benchmark/taxonomy，只在它明确聚焦本频道核心范围时保留；主要建议动作为 `skim`、`inspect` 或 `update-map`。
 12. 先按子类聚合候选，并按“专项洞察限制”判断是否有子类达到专项洞察门槛。
 13. 在子类内按初筛评分排序，不按固定 Top N 凑数。
 14. 在输出开头给出“本轮方向摘要”：哪些子类强、哪些子类弱、哪些子类达到专项洞察门槛、哪些子类暂不展开以及原因。
@@ -95,7 +95,7 @@
 
 - `ignore`：相关性或证据不足。
 - `skim`：可能有用，但证据较弱。
-- `deep-read`：值得精读的强候选。
+- `inspect`：值得后续人工检查、代码检查或单独技术分析的强候选。
 - `track-code`：主要价值在实现、runtime 集成或代码。
 - `watch`：有潜力但还不成熟，等待代码、实验或后续版本。
 - `update-map`：主要价值在更新研究地图、关键词、benchmark 视角或评分标准，常用于综述、taxonomy、benchmark 或 position paper。
