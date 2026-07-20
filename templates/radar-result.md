@@ -8,6 +8,7 @@
 - 默认 profile：读取 `config/channels/{{channel}}/profile.yml`
 - 是否展开 full topics：否 / 是，原因：
 - 是否展开 research map：否 / 是，原因：
+- 是否读取 watchlist：否 / 是，原因：
 - 主题依据：profile / full topics / research map
 - 领域限定：无 / {{core_subtopic}}
 - 软过滤口径：核心候选优先；相邻候选必须说明关联原因

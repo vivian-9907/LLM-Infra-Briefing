@@ -1,0 +1,152 @@
+version: 1
+purpose: >
+  High-priority model families, organizations, frameworks and keywords to watch
+  across shared sources. This is not a source list; it tells radar who deserves
+  extra attention when model or framework releases appear.
+
+default_read: false
+read_when:
+  - source_scope includes model_releases or framework_releases
+  - user asks about model releases, official updates, model cards or release notes
+  - a candidate mentions one of the watched entities
+  - profile filtering keeps too many generic model news candidates
+
+model_families:
+  - name: GPT / ChatGPT
+    organization: OpenAI
+    aliases:
+      - GPT
+      - ChatGPT
+      - OpenAI model
+    watch_for:
+      - new model version
+      - context length
+      - multimodal capability
+      - API/runtime behavior
+      - pricing or throughput signal
+      - structured output / tool-use implications
+
+  - name: Claude
+    organization: Anthropic
+    aliases:
+      - Claude
+      - Claude Code
+    watch_for:
+      - new model version
+      - context length
+      - coding / agent capability
+      - tool-use/runtime behavior
+
+  - name: DeepSeek
+    organization: DeepSeek
+    aliases:
+      - DeepSeek
+      - DeepSeek-V
+      - DeepSeek-R
+      - DeepSeek-MoE
+    watch_for:
+      - MoE architecture
+      - MLA / attention architecture
+      - training or inference system detail
+      - open weights
+      - kernel/runtime integration
+
+  - name: Qwen
+    organization: Alibaba
+    aliases:
+      - Qwen
+      - Tongyi
+    watch_for:
+      - open weights
+      - coding / agent model
+      - multimodal model
+      - long context
+      - quantized artifacts
+      - vLLM / SGLang support
+
+  - name: Llama
+    organization: Meta
+    aliases:
+      - Llama
+      - Meta Llama
+    watch_for:
+      - open weights
+      - model card
+      - quantized artifacts
+      - serving/runtime support
+
+  - name: Mistral
+    organization: Mistral AI
+    aliases:
+      - Mistral
+      - Mixtral
+      - Magistral
+    watch_for:
+      - MoE architecture
+      - open weights
+      - long context
+      - inference/runtime notes
+
+  - name: LongCat
+    organization: Meituan
+    aliases:
+      - LongCat
+      - LongCat-Flash
+      - LongCat-2.0
+    watch_for:
+      - MoE architecture
+      - n-gram embedding
+      - long context
+      - FP8 / INT8 artifact
+      - SGLang or serving support
+
+  - name: MiMo
+    organization: Xiaomi
+    aliases:
+      - MiMo
+      - Xiaomi MiMo
+    watch_for:
+      - new model version
+      - full-modal capability
+      - long context
+      - open weights
+      - model card
+      - serving/runtime support
+
+organizations:
+  - OpenAI
+  - Anthropic
+  - DeepSeek
+  - Alibaba Qwen
+  - Meta AI
+  - Mistral AI
+  - Google DeepMind
+  - NVIDIA
+  - Hugging Face
+  - Xiaomi MiMo
+  - Meituan LongCat
+
+frameworks:
+  - vLLM
+  - SGLang
+  - TensorRT-LLM
+  - llama.cpp
+  - Transformers
+  - FlashInfer
+  - Triton
+
+keep_release_if_any:
+  - architecture detail
+  - context length change
+  - tokenizer or model card change
+  - open weights or license change
+  - quantized checkpoint or low-bit artifact
+  - vLLM / SGLang / TensorRT-LLM / llama.cpp support
+  - benchmark with latency, throughput, memory, accuracy or cost
+  - kernel, KV cache, MoE, speculative decoding or batching detail
+
+drop_release_if:
+  - pure marketing announcement
+  - no model card, release note, artifact, benchmark or technical detail
+  - only generic capability claims
+  - no relation to quantization, AI infra, serving/runtime or model deployment
