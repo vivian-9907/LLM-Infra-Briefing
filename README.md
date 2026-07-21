@@ -27,6 +27,8 @@ radar ai-infra 只看 agent products 和 repo activity
 
 如果需要保存结果，写入 `outputs/<channel>/radar/`。生成的 Markdown 报告默认不提交到 git，目录中的 `.gitkeep` 只用于保留输出路径。
 
+`ai-infra` 频道保存结果时，可以额外生成工作群短简报，写入 `outputs/ai-infra/digest/`。短简报用于每周群发，完整证据链仍保留在 `outputs/ai-infra/radar/` 的 full report。
+
 ## 项目目录
 
 ```text
@@ -52,7 +54,8 @@ radar ai-infra 只看 agent products 和 repo activity
 ├── templates/
 │   ├── radar-result.md
 │   ├── radar-result-quantization.md
-│   └── radar-result-ai-infra.md
+│   ├── radar-result-ai-infra.md
+│   └── radar-digest-ai-infra.md
 ├── references/
 │   ├── channels/
 │   │   ├── quantization-map.md
@@ -108,6 +111,9 @@ references/channels/<channel>-map.md
 
 templates/radar-result-<channel>.md
   └─ 决定本频道最终简报形态；量化强调量化 artifact、数据格式/压缩率/精度/落地，infra 强调模型/agent、系统层级/性能/扩展性/runtime/repo activity
+
+templates/radar-digest-ai-infra.md
+  └─ 决定 AI Infra 工作群短简报形态；保留新模型 / Agent 产品、本周必看、趋势判断和可跳过项，不替代完整归档版
 ```
 
 简短理解：

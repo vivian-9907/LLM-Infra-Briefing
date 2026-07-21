@@ -21,5 +21,7 @@ channels:
     topics_full: config/channels/ai-infra/topics.full.yml
     research_map: references/channels/ai-infra-map.md
     template: templates/radar-result-ai-infra.md
+    digest_template: templates/radar-digest-ai-infra.md
     outputs:
       radar: outputs/ai-infra/radar
+      digest: outputs/ai-infra/digest
