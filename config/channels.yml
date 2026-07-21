@@ -12,8 +12,10 @@ channels:
     topics_full: config/channels/quantization/topics.full.yml
     research_map: references/channels/quantization-map.md
     template: templates/radar-result-quantization.md
+    digest_template: templates/radar-digest-quantization.md
     outputs:
       radar: outputs/quantization/radar
+      digest: outputs/quantization/digest
 
   ai-infra:
     description: LLM infrastructure, serving/runtime, training systems, MoE, communication, kernels, hardware affinity and performance analysis.

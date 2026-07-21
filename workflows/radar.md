@@ -43,7 +43,7 @@
 
 1. 读取 `config/channels.yml`，确定本轮 `channel`。
 2. 读取该频道的 `profile.yml`、`config/watchlist.yml`、`config/sources.yml` 和 `config/radar-rubric.yml`。
-3. 用频道 profile 生成主题搜索 query，用 watchlist 扩展每周固定关注实体的搜索 query；watchlist 用于召回和筛选，不代表最终报告必须覆盖每个实体。
+3. 用频道 profile 生成主题搜索 query，用 watchlist 扩展每周固定关注实体的搜索 query；watchlist 用于召回和筛选，不代表最终报告必须覆盖每个实体。`ai-infra` 常规 radar 必须包含一组 architecture infra impact query，覆盖 attention architecture、KV-sharing / low-rank / grouped attention variants、sparse / linear / sliding-window / hybrid attention、MoE architecture、routed / shared / hierarchical experts、expert-choice routing、residual stream、Hyper-Connections、xHC/mHC、sparse residual paths、architecture scaling、training FLOPs、memory traffic、MoE pre-training efficiency 等词，避免只召回 serving/runtime 和 repo release。
 4. 如果 source_scope 包含 github_releases、github_activity、framework_releases 或 repo_activity，读取 `config/tracked-repos.yml`，按当前频道和 repo 的 `source_modes` 过滤出本轮要查的仓库。
 5. 当 source_scope 包含 papers / arxiv / github / rss / vendor_blogs / repo_activity，用户指定作者/实验室/maintainer，或候选归因有助于排序时，读取 `config/experts.yml` 和/或 `config/venues.yml`。专家和会议只用于 query expansion、venue context、attribution 和 signal weighting，不能替代保留标准；`primary_channels` 命中强于 `related_channels`，后者只作为弱相关信号或排序 tie-breaker。
 6. 默认不要读取 `topics.full.yml` 和频道 research map；只有在专项扫描、召回不足、分类不确定、需要方向观察或用户明确要求完整覆盖时才展开读取。
@@ -73,11 +73,12 @@
 15. 对 `quantization` 频道的 `multimodal_quantization` 这类多模态标签，优先保留明确涉及 VLM/MLLM/LVLM、视觉/视频/语音 encoder、modality projector、cross-modal attention、visual tokens、多模态 KV cache、DiT/diffusion transformer、serving/runtime 或 kernel 的候选；纯图像压缩、传统视频 codec 或和 LLM/transformer 推理无关的图像量化应过滤。
 16. 对综述/benchmark/taxonomy，只在它明确聚焦本频道核心范围时保留；主要建议动作为 `skim`、`inspect` 或 `update-map`。
 17. 对模型发布、agent 产品更新和框架 release，结合 watchlist 判断是否属于重点实体；只有当它包含模型版本、架构、context length、runtime 支持、量化 artifact、benchmark、kernel、兼容性信息、agent 工作流变化、工具调用能力、IDE/CLI/GitHub 集成或权限/沙箱变化时才保留。
+17a. 对 `ai-infra` 的架构类论文，不能只按 serving/runtime 过滤。若论文明确说明 attention / MoE / residual-stream 等架构改变会影响 compute graph、KV cache layout、prefill/decode cost、routing、all-to-all、expert parallelism、memory traffic、training FLOPs、MFU、kernel path、通信形态、MoE pre-training efficiency 或 serving/training runtime，即使不是系统框架论文，也应作为 `architecture infra impact` 候选保留。
 18. 先按子类聚合候选，并判断是否有子类满足方向观察条件。
 19. 在子类内按初筛评分排序，不按固定 Top N 凑数。
 20. 在输出开头给出“本轮方向摘要”：哪些子类强、哪些子类弱、哪些子类满足方向观察条件、哪些子类暂不展开以及原因。
 21. 按频道模板输出轻量简报，不默认输出大表格。`ai-infra` 的 full report 顺序是：新模型与 agent 产品、新论文趋势、高优先级论文、高优先级开源项目、重要仓库 PR / Release 趋势。`quantization` 的顺序是：新模型与量化 artifact、新论文趋势、高优先级论文、高优先级开源项目、高价值技术博客 / 工程文章、重要仓库 PR / Release 趋势。
-21a. 当频道是 `ai-infra` 且需要保存结果时，同时使用 `digest_template` 生成工作群短简报，写入 `outputs/ai-infra/digest/`。短简报不替代 full report；它只保留一句话结论、新模型 / Agent 产品、本周必看、本周趋势、可跳过和完整版链接。
+21a. 当频道配置了 `digest_template` 且需要保存结果时，同时生成工作群短简报，写入该频道 `outputs.digest` 对应目录。短简报不替代 full report；它只保留一句话结论、新模型 / Agent 产品或新模型 / 量化 Artifact、本周必看、本周趋势、可跳过和完整版链接。
 22. 只有当“本轮方向摘要”已经点名某个子类满足条件时，才补充“方向观察”。方向观察要总结方向级信号、共同点、分歧和下一步，而不是重复单条候选。
 23. 如果某个子类本轮信号明显，可以补充方向观察；证据不足时必须写入“暂不展开的子类及原因”。
 24. 如果用户已有历史表格或明确要求维护历史记录，可以追加“历史表格”；第一版默认只预留，不强制维护。
@@ -122,11 +123,12 @@
 - 只有满足方向观察条件时才补充方向观察；否则明确写“本轮无方向观察”
 - 必要时补充历史表格预留
 
-`ai-infra` 频道如果配置了 `digest_template`，并且本轮保存结果，则额外输出群发短简报。短简报必须满足：
+频道如果配置了 `digest_template`，并且本轮保存结果，则额外输出群发短简报。短简报必须满足：
 
 - 不改变、不压缩 full report；full report 仍作为完整归档。
 - 面向工作群阅读，控制在 1 屏到 2 屏左右。
-- 单独包含“新模型 / Agent 产品”，但只收有 infra、quant、serving、model-card、runtime、benchmark、agent workflow 或 API 行为信号的发布。
+- `ai-infra` 单独包含“新模型 / Agent 产品”，但只收有 infra、quant、serving、model-card、runtime、benchmark、agent workflow 或 API 行为信号的发布。
+- `quantization` 单独包含“新模型 / 量化 Artifact”，但只收有量化、压缩、serving、runtime、kernel、model-card、benchmark 或 quantized checkpoint 信号的发布。
 - “本周必看”优先列 3-5 条最高价值候选，混排论文、技术报告、repo release、工程博客和模型发布。
 - 每条必须包含动作：`精读`、`看代码`、`观察` 或 `跳过`。
 - 结尾提供 full report 链接或本地路径。

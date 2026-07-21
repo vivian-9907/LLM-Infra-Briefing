@@ -140,8 +140,13 @@ core_topics:
     include:
       - Transformer architecture
       - attention mechanism
+      - attention architecture
       - sparse attention
       - linear attention
+      - hybrid attention
+      - sliding window attention
+      - attention sink
+      - KV cache layout
       - state space model
       - Mamba
       - MLA
@@ -152,9 +157,32 @@ core_topics:
       - memory layer
       - lookup memory
       - n-gram embedding
+      - MoE architecture
+      - routed experts
+      - shared experts
+      - expert choice
+      - hierarchical MoE
+      - router load balancing
+      - sparse expert architecture
+      - residual stream
+      - residual stream expansion
+      - Hyper-Connections
+      - expanded Hyper-Connections
+      - xHC
+      - mHC
+      - sparse residual stream
+      - MoE pre-training efficiency
+      - training FLOPs
+      - memory traffic
+      - memory bandwidth reduction
     synonyms:
       - architecture infra impact
       - systems-aware architecture
+      - architecture with systems impact
+      - attention architecture infra impact
+      - MoE architecture infra impact
+      - residual-stream architecture
+      - large-N residual streams
 
   performance_analysis:
     description: 端到端性能分析、profiling、benchmark、瓶颈定位和指标体系。

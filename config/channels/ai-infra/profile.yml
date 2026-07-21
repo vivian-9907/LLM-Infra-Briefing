@@ -13,17 +13,23 @@ core_focus:
   - MoE systems, expert parallelism, dispatch/combine, communication overlap
   - distributed training, parallelism, checkpointing, optimizer sharding
   - CUDA / Triton / CUTLASS kernels and operator fusion
+  - attention architecture with infra impact: KV-sharing / low-rank / grouped attention variants, sparse / linear / hybrid attention, state-space-style blocks, long-context attention and KV/cache shape changes
+  - MoE architecture with infra impact: sparse expert models, routed experts, shared experts, expert choice, hierarchical MoE, DeepSeek/GLM/Mixtral-style routing and load-balancing changes
+  - architecture infra impact: residual stream design, Hyper-Connections, sparse / expanded residual paths, memory traffic, training FLOPs and architecture changes that alter compute or communication shape
   - model versions whose release notes include context length, architecture, serving, kernel or hardware implications
 
 strong_signals:
   - release notes, code changes, benchmark, paper, model card or artifact
   - explicit latency, throughput, memory, scaling, MFU, TTFT/TPOT/P99 or cost result
   - concrete runtime/framework/kernel/hardware detail
-  - architecture change that affects compute graph, memory, communication or serving shape
+  - architecture change that affects compute graph, memory, communication, training FLOPs, memory traffic or serving shape
+  - attention or MoE architecture change that affects KV cache layout, prefill/decode cost, routing, all-to-all, expert parallelism, kernel/operator shape, batching, long-context serving or training efficiency
+  - model-architecture paper with implementation detail such as residual-stream expansion, Hyper-Connections, xHC/mHC, sparse residual paths, MoE pre-training efficiency, or memory-bandwidth reduction
 
 noise_filters:
   - pure product launch without technical detail
   - generic model capability news without infra implications
+  - architecture paper that reports only accuracy or capability without compute, memory, scaling, kernel, training or serving implications
   - application-layer agent or prompt workflow without runtime/system relevance
   - unverified social posts without a paper, code, model card or official note
 

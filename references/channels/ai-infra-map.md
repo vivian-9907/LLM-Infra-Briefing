@@ -17,9 +17,14 @@ systems value, not generic model news.
   NVLink/InfiniBand/HCCL/NCCL behavior.
 - Kernels/operators: attention, GEMM, MoE, RoPE, norm, quant/dequant, fused
   kernels, Triton/CUDA/CUTLASS implementation paths.
-- Architecture with infra impact: sparse attention, MLA/GQA/MQA, state-space
-  models, lookup memory, long-context mechanisms and model structures that
-  change runtime shape or bottlenecks.
+- Architecture with infra impact: attention architecture such as KV-sharing,
+  low-rank or grouped attention variants, sparse / sliding-window / hybrid /
+  linear attention and state-space models; MoE architecture such as routed
+  experts, shared experts, hierarchical MoE, expert-choice routing and load
+  balancing; plus lookup memory, long-context mechanisms, residual stream
+  design, Hyper-Connections / xHC-style residual expansion, and model
+  structures that change training or runtime shape, memory traffic,
+  communication, kernel paths or bottlenecks.
 - Performance analysis: profiling, benchmark design, TTFT/TPOT/P99, memory
   footprint, throughput, utilization, bottleneck analysis.
 
@@ -35,6 +40,13 @@ Keep a candidate only when it has at least one strong systems signal:
   or a paper with enough implementation evidence.
 - A model architecture change that directly affects compute graph, memory,
   communication, scheduling or operator shape.
+- An attention or MoE architecture change that affects KV cache layout,
+  prefill/decode cost, routing, all-to-all traffic, expert parallelism,
+  operator/kernel shape, batching, long-context serving or training efficiency.
+- A model architecture paper that reports systems-facing evidence such as
+  training FLOPs, MFU, memory traffic, memory bandwidth, scaling behavior,
+  pre-training efficiency, kernel implementation, or serving/training runtime
+  implications.
 
 Filter generic capability news, launch announcements and application-layer
 agent/prompt workflows unless they include concrete infra implications.
