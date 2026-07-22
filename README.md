@@ -5,7 +5,7 @@
 当前支持两个频道：
 
 - `quantization`：LLM quantization / low-bit / compression / inference optimization，包括低 bit 量化、模型压缩、多模态/全模态模型量化、serving/runtime 集成、算子/kernel 相关工作。这里不是金融量化研究。
-- `ai-infra`：LLM infrastructure，包括 serving/runtime、训练系统、MoE、通信并行、kernel/operator、硬件亲和和端到端性能分析。
+- `ai-infra`：LLM infrastructure，包括 serving/runtime、训练系统、MoE 系统、通信并行、kernel/operator、硬件亲和、端到端性能分析，以及会改变 compute graph、KV cache、routing、通信形态、memory traffic、training FLOPs 或 serving/training runtime 的模型架构方向。
 
 ## 工作流
 
@@ -21,6 +21,7 @@ radar ai-infra 过去 30 天
 radar quantization 只看 KV cache compression
 radar ai-infra 只查 framework releases
 radar ai-infra 只看 agent products 和 repo activity
+radar ai-infra 只看模型架构对 infra 的影响
 ```
 
 常规运行默认读取频道 `profile`、`watchlist`、`sources` 和 `radar-rubric`。只有在专项扫描、召回不足、分类不确定或用户要求完整覆盖时，才展开 `topics.full.yml` 和频道 research map。
@@ -111,7 +112,7 @@ references/channels/<channel>-map.md
   └─ 只在需要解释方向、写方向观察或分类不确定时读取
 
 templates/radar-result-<channel>.md
-  └─ 决定本频道最终简报形态；量化强调量化 artifact、数据格式/压缩率/精度/落地，infra 强调模型/agent、系统层级/性能/扩展性/runtime/repo activity
+  └─ 决定本频道最终简报形态；量化强调量化 artifact、数据格式/压缩率/精度/落地，infra 强调模型/agent、系统层级/性能/扩展性/runtime/repo activity，以及 attention / MoE / residual-stream 等模型架构变化带来的 infra 影响
 
 templates/radar-digest-ai-infra.md
   └─ 决定 AI Infra 工作群短简报形态；保留新模型 / Agent 产品、本周必看、趋势判断和可跳过项，不替代完整归档版
@@ -130,6 +131,7 @@ templates/radar-digest-quantization.md
 - `config/experts.yml` 是专家/团队注册表。每个条目用 `primary_channels` 表示主频道，用 `related_channels` 表示弱相关频道，避免同一个跨领域作者在多个频道重复维护。
 - `config/venues.yml` 是会议/benchmark 场域表。会议名用于搜索扩展和候选上下文，只有具体 proceedings、RSS 或站点才应放进 `sources.yml`。
 - `topics.full.yml` 和 `references/channels/<channel>-map.md` 是按需展开层，用来处理专项扫描或不确定分类。
+- `ai-infra` 不只收系统框架和 repo release。若模型架构论文明确影响 KV cache layout、prefill/decode cost、MoE routing、all-to-all、expert parallelism、kernel/operator shape、memory traffic、training FLOPs、MFU 或 serving/training runtime，也应作为 infra 候选保留；没有这些系统信号的纯能力/榜单论文仍过滤。
 
 ## 状态
 
