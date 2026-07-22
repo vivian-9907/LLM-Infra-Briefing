@@ -41,7 +41,21 @@
 - 证据：benchmark / artifact / code / strong abstract / 未充分
 - 建议动作：`inspect` / `replicate` / `skim` / `watch`
 
-## 4. 高优先级开源项目
+## 4. 高价值技术报告 / 架构报告 / 工程文章
+
+只放有实质技术细节的官方技术报告、架构 deep dive、系统设计文章、benchmark 报告或工程博客。过滤纯发布稿和营销文章。
+
+### {{report_or_article_title}}
+
+- 链接：
+- 来源：官方技术报告 / 架构报告 / 工程博客 / benchmark 报告 / 白皮书
+- 核心内容：
+- 系统层级：hardware platform / serving / runtime / training / MoE / communication / kernel / model architecture / agent workflow
+- infra 影响：latency / throughput / memory / scaling / MFU / KV cache / interconnect / kernel path / deployment
+- 证据：architecture detail / benchmark / implementation detail / official note / 未充分
+- 建议动作：`inspect` / `skim` / `update-map` / `watch`
+
+## 5. 高优先级开源项目
 
 关注能运行、能复现、能接到 runtime 或有明确 benchmark 的项目。
 
@@ -53,7 +67,7 @@
 - 成熟度：prototype / active repo / release / production signal
 - 建议动作：`track-code` / `inspect` / `replicate` / `watch`
 
-## 5. 重要仓库 PR / Release 趋势
+## 6. 重要仓库 PR / Release 趋势
 
 关注 `config/tracked-repos.yml` 中和本频道相关的仓库，以及 AI infra 相关项目的新 PR、release 和近期 activity。这里写趋势，不堆 commit 列表。
 
@@ -64,7 +78,7 @@
 - 影响：
 - 建议动作：`track-code` / `watch`
 
-## 6. Near Miss / 暂不展开
+## 7. Near Miss / 暂不展开
 
 - {{item}}：为什么暂不展开
 

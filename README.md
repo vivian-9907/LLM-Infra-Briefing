@@ -112,7 +112,7 @@ references/channels/<channel>-map.md
   └─ 只在需要解释方向、写方向观察或分类不确定时读取
 
 templates/radar-result-<channel>.md
-  └─ 决定本频道最终简报形态；量化强调量化 artifact、数据格式/压缩率/精度/落地，infra 强调模型/agent、系统层级/性能/扩展性/runtime/repo activity，以及 attention / MoE / residual-stream 等模型架构变化带来的 infra 影响
+  └─ 决定本频道最终简报形态；量化强调量化 artifact、数据格式/压缩率/精度/落地，infra 强调模型/agent、技术报告/架构报告、系统层级/性能/扩展性/runtime/repo activity，以及 attention / MoE / residual-stream 等模型架构变化带来的 infra 影响
 
 templates/radar-digest-ai-infra.md
   └─ 决定 AI Infra 工作群短简报形态；保留新模型 / Agent 产品、本周必看、趋势判断和可跳过项，不替代完整归档版

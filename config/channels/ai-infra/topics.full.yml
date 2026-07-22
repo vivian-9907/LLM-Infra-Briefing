@@ -135,6 +135,36 @@ core_topics:
       - kernel optimization
       - operator implementation
 
+  gpu_architecture_and_hardware_platforms:
+    description: 硬件平台、互联、内存层级、rack-scale 系统和低比特硬件路径。只在影响 LLM serving/training bottleneck 时保留。
+    include:
+      - accelerator architecture
+      - GPU architecture
+      - hardware architecture
+      - hardware platform
+      - hardware-software co-design
+      - HBM
+      - NVLink
+      - NVSwitch
+      - interconnect
+      - rack-scale system
+      - tensor core
+      - Transformer Engine
+      - FP8
+      - FP4
+      - NVFP4
+      - MXFP4
+      - memory bandwidth
+      - interconnect bandwidth
+      - power and cooling
+      - MoE weight movement
+      - KV cache capacity
+    synonyms:
+      - AI accelerator
+      - GPU platform
+      - rack-scale AI system
+      - hardware platform with infra impact
+
   model_architecture_for_infra:
     description: 会改变系统瓶颈或算子形态的新模型结构。
     include:

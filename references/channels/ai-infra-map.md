@@ -17,6 +17,11 @@ systems value, not generic model news.
   NVLink/InfiniBand/HCCL/NCCL behavior.
 - Kernels/operators: attention, GEMM, MoE, RoPE, norm, quant/dequant, fused
   kernels, Triton/CUDA/CUTLASS implementation paths.
+- Hardware platforms with infra impact: GPU / accelerator architecture, HBM,
+  NVLink/NVSwitch, rack-scale systems, tensor cores, low-bit hardware formats
+  and power/cooling constraints when they change serving/training bottlenecks,
+  memory bandwidth, communication, KV cache capacity, MoE weight movement or
+  kernel/runtime design.
 - Architecture with infra impact: attention architecture such as KV-sharing,
   low-rank or grouped attention variants, sparse / sliding-window / hybrid /
   linear attention and state-space models; MoE architecture such as routed
@@ -34,6 +39,9 @@ Keep a candidate only when it has at least one strong systems signal:
 
 - Concrete runtime, framework, kernel, communication, hardware or benchmark
   evidence.
+- Hardware platform detail that affects memory bandwidth, interconnect,
+  low-bit execution, rack-scale communication, KV cache capacity, MoE weight
+  movement, power/cooling or kernel/runtime design.
 - Clear impact on serving/training latency, throughput, memory, cost or
   scalability.
 - Code, artifact, reproducible benchmark, release note with technical detail,
@@ -72,6 +80,8 @@ agent/prompt workflows unless they include concrete infra implications.
 - kernel-optimization
 - operator-fusion
 - memory-bandwidth
+- hardware-platform
+- rack-scale-system
 - hardware-portability
 - benchmark-design
 - end-to-end-performance
