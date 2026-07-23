@@ -191,6 +191,8 @@ sources:
       - name: Google DeepMind blog
         url: https://deepmind.google/discover/blog/rss.xml
     candidate_pages:
+      - name: NVIDIA official blog
+        url: https://blogs.nvidia.com/
       - name: OpenAI news
         url: https://openai.com/news/
       - name: Anthropic news
@@ -226,6 +228,29 @@ sources:
       - GitHub integration
       - tool use
     notes: 跟踪官方模型发布、agent 产品更新、技术博客和框架公告。过滤掉只有营销描述、没有技术细节或没有 infra/quantization/agent 关联的普通新闻。
+
+  hardware_platform_reports:
+    type: rss_or_web
+    candidate_pages:
+      - name: NVIDIA official blog
+        url: https://blogs.nvidia.com/
+      - name: NVIDIA technical blog
+        url: https://developer.nvidia.com/blog/
+    candidate_signals:
+      - GPU architecture
+      - accelerator architecture
+      - rack-scale system
+      - interconnect
+      - memory bandwidth
+      - low-bit hardware path
+      - performance per watt
+      - token cost
+      - partner benchmark
+      - deployment status
+    notes: >
+      专门补硬件平台和 AI factory 官方报告召回。只保留有具体系统指标、
+      rack/topology/interconnect、serving/training bottleneck、token cost、
+      power/cooling、partner benchmark 或 deployment 证据的内容；纯发布口号过滤。
 
 future_sources:
   - name: SSRN

@@ -43,7 +43,7 @@
 
 1. 读取 `config/channels.yml`，确定本轮 `channel`。
 2. 读取该频道的 `profile.yml`、`config/watchlist.yml`、`config/sources.yml` 和 `config/radar-rubric.yml`。
-3. 用频道 profile 生成主题搜索 query，用 watchlist 扩展每周固定关注实体的搜索 query；watchlist 用于召回和筛选，不代表最终报告必须覆盖每个实体。`ai-infra` 常规 radar 必须包含一组 architecture infra impact query，覆盖 attention architecture、KV-sharing / low-rank / grouped attention variants、sparse / linear / sliding-window / hybrid attention、MoE architecture、routed / shared / hierarchical experts、expert-choice routing、residual stream、Hyper-Connections、xHC/mHC、sparse residual paths、architecture scaling、training FLOPs、memory traffic、MoE pre-training efficiency 等词，避免只召回 serving/runtime 和 repo release。
+3. 用频道 profile 生成主题搜索 query，用 watchlist 扩展每周固定关注实体的搜索 query；watchlist 用于召回和筛选，不代表最终报告必须覆盖每个实体。`ai-infra` 常规 radar 必须包含一组 architecture infra impact query，覆盖 attention architecture、KV-sharing / low-rank / grouped attention variants、sparse / linear / sliding-window / hybrid attention、MoE architecture、routed / shared / hierarchical experts、expert-choice routing、residual stream、Hyper-Connections、xHC/mHC、sparse residual paths、architecture scaling、training FLOPs、memory traffic、MoE pre-training efficiency 等词，避免只召回 serving/runtime 和 repo release。`ai-infra` 常规 radar 可做一组 lightweight hardware platform smoke-check query，覆盖少量通用词和当前高信号平台名，例如 rack-scale / interconnect / performance per watt / token cost / partner benchmark / deployment status / Rubin / Blackwell / Instinct / TPU。只有当 source_scope 显式包含 `hardware_platform_reports`，或 smoke-check 命中明确官方报告、partner benchmark、deployment status 或系统指标时，才展开查 `hardware_platform_reports`；避免漏掉不在常规技术 RSS 中的官方平台报告，但不要让硬件平台扫描压过 serving/runtime、paper 和 repo activity 的主线。
 4. 如果 source_scope 包含 github_releases、github_activity、framework_releases 或 repo_activity，读取 `config/tracked-repos.yml`，按当前频道和 repo 的 `source_modes` 过滤出本轮要查的仓库。
 5. 当 source_scope 包含 papers / arxiv / github / rss / vendor_blogs / repo_activity，用户指定作者/实验室/maintainer，或候选归因有助于排序时，读取 `config/experts.yml` 和/或 `config/venues.yml`。专家和会议只用于 query expansion、venue context、attribution 和 signal weighting，不能替代保留标准；`primary_channels` 命中强于 `related_channels`，后者只作为弱相关信号或排序 tie-breaker。
 6. 默认不要读取 `topics.full.yml` 和频道 research map；只有在专项扫描、召回不足、分类不确定、需要方向观察或用户明确要求完整覆盖时才展开读取。
@@ -72,8 +72,9 @@
 14. 对 `quantization` 频道的 `long_context_mechanisms_for_compression` 这类相邻机制/挑战标签，只有在候选明确连接到量化、KV cache 压缩、serving、activation outlier、memory 或 inference efficiency 时才保留；否则过滤或标为 `ignore`。
 15. 对 `quantization` 频道的 `multimodal_quantization` 这类多模态标签，优先保留明确涉及 VLM/MLLM/LVLM、视觉/视频/语音 encoder、modality projector、cross-modal attention、visual tokens、多模态 KV cache、DiT/diffusion transformer、serving/runtime 或 kernel 的候选；纯图像压缩、传统视频 codec 或和 LLM/transformer 推理无关的图像量化应过滤。
 16. 对综述/benchmark/taxonomy，只在它明确聚焦本频道核心范围时保留；主要建议动作为 `skim`、`inspect` 或 `update-map`。
-17. 对模型发布、agent 产品更新和框架 release，结合 watchlist 判断是否属于重点实体；只有当它包含模型版本、架构、context length、runtime 支持、量化 artifact、benchmark、kernel、兼容性信息、agent 工作流变化、工具调用能力、IDE/CLI/GitHub 集成或权限/沙箱变化时才保留。
+17. 对模型发布、agent 产品更新、硬件平台报告和框架 release，结合 watchlist 判断是否属于重点实体；只有当它包含模型版本、架构、context length、runtime 支持、量化 artifact、benchmark、kernel、兼容性信息、agent 工作流变化、工具调用能力、IDE/CLI/GitHub 集成、权限/沙箱变化、rack-scale topology、interconnect、power/cooling、token-cost、partner benchmark 或 deployment status 时才保留。
 17a. 对 `ai-infra` 的架构类论文，不能只按 serving/runtime 过滤。若论文明确说明 attention / MoE / residual-stream 等架构改变会影响 compute graph、KV cache layout、prefill/decode cost、routing、all-to-all、expert parallelism、memory traffic、training FLOPs、MFU、kernel path、通信形态、MoE pre-training efficiency 或 serving/training runtime，即使不是系统框架论文，也应作为 `architecture infra impact` 候选保留。
+17b. 对 `ai-infra` 的硬件平台报告，不能只依赖单一 developer technical blog RSS。若官方新闻页、vendor blog、partner benchmark 或 whitepaper 明确给出 rack-scale topology、interconnect/fabric、HBM、low-bit hardware path、power/cooling、token-cost、MoE all-to-all、KV capacity、deployment status 或 partner benchmark，即使它是 vendor blog 而不是论文或 framework release，也可作为高价值技术报告候选保留。若只有发布口号、股价/市场信息或泛数据中心营销，不保留。
 18. 先按子类聚合候选，并判断是否有子类满足方向观察条件。
 19. 在子类内按初筛评分排序，不按固定 Top N 凑数。
 20. 在输出开头给出“本轮方向摘要”：哪些子类强、哪些子类弱、哪些子类满足方向观察条件、哪些子类暂不展开以及原因。
@@ -91,7 +92,8 @@
 - GitHub Releases / repo activity：优先关注 `config/tracked-repos.yml` 中和本频道相关的仓库，筛选模型支持、serving、训练、量化、kernel、PR 趋势和 breaking changes。
 - Hugging Face：按频道过滤模型卡、paper/project 关联、artifact、benchmark、推理示例和 runtime 使用说明。不要扩展成泛模型能力新闻监控；只保留和本频道目标相关的条目。
 - Model hubs：关注新模型版本、模型卡、context length、架构、license、quantized checkpoint、GGUF/safetensors、runtime 兼容和 benchmark。
-- Vendor blogs：关注官方模型发布、agent 产品更新、技术博客和框架公告；过滤只有营销表述、没有技术细节的普通新闻。
+- Vendor blogs：关注官方模型发布、agent 产品更新、硬件平台 / AI factory 报告、技术博客和框架公告；过滤只有营销表述、没有技术细节的普通新闻。
+- Hardware platform reports：关注官方 vendor blog、data center 页面和 partner benchmark。重点保留 rack-scale topology、interconnect、token-cost、power/cooling、MoE all-to-all、KV capacity、deployment status 等系统证据。
 - RSS：实验室、公司、博客和工程团队文章只有在有明确技术细节，或指向论文/代码时才保留。
 
 ## 候选动作

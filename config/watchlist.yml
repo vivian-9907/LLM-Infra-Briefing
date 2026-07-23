@@ -283,6 +283,26 @@ organizations:
   - Xiaomi MiMo
   - Meituan LongCat
 
+hardware_platforms:
+  - name: Hardware platform reports
+    aliases:
+      - Rubin
+      - Blackwell
+      - Instinct
+      - TPU
+      - AI Hypercomputer
+      - NVLink
+      - rack-scale
+      - AI factory
+    watch_for:
+      - official platform report
+      - rack-scale deployment
+      - partner benchmark
+      - performance per watt
+      - token cost
+      - interconnect or memory bandwidth detail
+      - serving or training bottleneck
+
 frameworks:
   - vLLM
   - SGLang
@@ -305,6 +325,7 @@ keep_release_if_any:
   - vLLM / SGLang / TensorRT-LLM / llama.cpp support
   - benchmark with latency, throughput, memory, accuracy or cost
   - kernel, KV cache, MoE, speculative decoding or batching detail
+  - hardware platform report with concrete rack-scale, interconnect, memory, power, serving/training bottleneck or token-cost evidence
 
 drop_release_if:
   - pure marketing announcement

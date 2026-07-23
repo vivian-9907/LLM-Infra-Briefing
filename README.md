@@ -85,7 +85,7 @@ channels.yml
   └─ 决定本轮 radar 使用哪个频道、轻量 profile、完整 topics、研究地图、结果模板和输出目录
 
 sources.yml
-  └─ 决定 radar 用哪些来源通道和来源组，包括 arXiv、GitHub、GitHub Releases / repo activity、Hugging Face、模型发布页、RSS 和厂商博客
+  └─ 决定 radar 用哪些来源通道和来源组，包括 arXiv、GitHub、GitHub Releases / repo activity、Hugging Face、模型发布页、RSS、厂商博客和硬件平台 / AI factory 官方报告
 
 tracked-repos.yml
   └─ 常规 repo release / activity 扫描时读取；维护具体 GitHub 仓库清单、频道归属、source_modes 和 runtime/operator 标签
@@ -127,11 +127,11 @@ templates/radar-digest-quantization.md
 - `config/channels/<channel>/profile.yml` 是默认入口过滤器，短、轻、省 token。
 - `config/sources.yml` 是来源通道表，回答“用什么方式搜”。具体 repo 不直接维护在这里。
 - `config/tracked-repos.yml` 是 GitHub 仓库表，回答“哪些 repo 值得直接查 release / activity”。每个 repo 只出现一次，用 `source_modes` 表示扫描方式。
-- `config/watchlist.yml` 是重点实体表，用于 LongCat、MiMo、DeepSeek、Kimi、GPT/ChatGPT、Claude、Qwen、Codex、Claude Code、Kimi Code、Qwen Code、Cursor、vLLM、SGLang 等发布监控。
+- `config/watchlist.yml` 是重点实体表，用于 LongCat、MiMo、DeepSeek、Kimi、GPT/ChatGPT、Claude、Qwen、Codex、Claude Code、Kimi Code、Qwen Code、Cursor、vLLM、SGLang，以及少量硬件平台报告 smoke check；硬件条目只用于防漏，不作为默认主线。
 - `config/experts.yml` 是专家/团队注册表。每个条目用 `primary_channels` 表示主频道，用 `related_channels` 表示弱相关频道，避免同一个跨领域作者在多个频道重复维护。
 - `config/venues.yml` 是会议/benchmark 场域表。会议名用于搜索扩展和候选上下文，只有具体 proceedings、RSS 或站点才应放进 `sources.yml`。
 - `topics.full.yml` 和 `references/channels/<channel>-map.md` 是按需展开层，用来处理专项扫描或不确定分类。
-- `ai-infra` 不只收系统框架和 repo release。若模型架构论文明确影响 KV cache layout、prefill/decode cost、MoE routing、all-to-all、expert parallelism、kernel/operator shape、memory traffic、training FLOPs、MFU 或 serving/training runtime，也应作为 infra 候选保留；没有这些系统信号的纯能力/榜单论文仍过滤。
+- `ai-infra` 不只收系统框架和 repo release。若模型架构论文明确影响 KV cache layout、prefill/decode cost、MoE routing、all-to-all、expert parallelism、kernel/operator shape、memory traffic、training FLOPs、MFU 或 serving/training runtime，也应作为 infra 候选保留。若硬件平台报告明确给出 rack-scale topology、interconnect、power/cooling、token-cost、MoE all-to-all、partner benchmark 或 deployment status，也可作为高价值技术报告保留；没有这些系统信号的纯能力/榜单/营销新闻仍过滤。
 
 ## 状态
 

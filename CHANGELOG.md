@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.8 - Hardware platform report coverage
+
+- Added `hardware_platform_reports` as an opt-in / conditionally expanded source group for rack-scale system, interconnect, power/cooling and token-cost reports.
+- Added official NVIDIA blog coverage as a fallback page so platform reports outside the developer technical blog RSS can still be found.
+- Added a compact hardware platform smoke-check watchlist instead of broad vendor-specific platform tracking.
+- Updated the radar workflow to add lightweight hardware platform / AI factory smoke-check queries for `ai-infra`, with conditional expansion when official reports, partner benchmarks, deployment status or system metrics are detected.
+
 ## v0.7 - Layered radar sources
 
 - Added `config/experts.yml` for author, maintainer, lab and research-group signal weighting.
