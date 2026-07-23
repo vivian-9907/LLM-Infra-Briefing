@@ -19,6 +19,39 @@ core_focus:
   - architecture infra impact: residual stream design, Hyper-Connections, sparse / expanded residual paths, memory traffic, training FLOPs and architecture changes that alter compute or communication shape
   - model versions whose release notes include context length, architecture, serving, kernel or hardware implications
 
+required_smoke_checks:
+  hardware_platform_reports:
+    required_for_regular_radar: true
+    purpose: >
+      Prevent missing official hardware / AI factory technical reports that do
+      not appear in paper or framework-release searches.
+    exact_query_terms:
+      - Rubin
+      - Blackwell
+      - Instinct
+      - TPU
+      - AI Hypercomputer
+      - NVLink
+      - rack-scale
+      - AI factory
+    official_source_terms:
+      - site:developer.nvidia.com/blog Rubin GPU architecture
+      - site:developer.nvidia.com/blog Rubin NVLink HBM4
+      - site:developer.nvidia.com/blog Blackwell NVLink rack-scale
+      - site:blogs.nvidia.com Rubin AI factory
+      - site:cloud.google.com/blog TPU AI Hypercomputer
+      - site:amd.com Instinct AI accelerator
+    expand_hardware_platform_reports_if_any:
+      - official platform report
+      - architecture deep dive
+      - HBM / HBM4 / memory bandwidth
+      - interconnect / NVLink / fabric
+      - rack-scale / NVL / AI factory
+      - power / cooling / tokens per watt
+      - MoE / all-to-all / expert routing
+      - long-context attention / KV cache capacity
+      - partner benchmark / deployment status
+
 strong_signals:
   - release notes, code changes, benchmark, paper, model card or artifact
   - explicit latency, throughput, memory, scaling, MFU, TTFT/TPOT/P99 or cost result

@@ -43,7 +43,8 @@
 
 1. 读取 `config/channels.yml`，确定本轮 `channel`。
 2. 读取该频道的 `profile.yml`、`config/watchlist.yml`、`config/sources.yml` 和 `config/radar-rubric.yml`。
-3. 用频道 profile 生成主题搜索 query，用 watchlist 扩展每周固定关注实体的搜索 query；watchlist 用于召回和筛选，不代表最终报告必须覆盖每个实体。`ai-infra` 常规 radar 必须包含一组 architecture infra impact query，覆盖 attention architecture、KV-sharing / low-rank / grouped attention variants、sparse / linear / sliding-window / hybrid attention、MoE architecture、routed / shared / hierarchical experts、expert-choice routing、residual stream、Hyper-Connections、xHC/mHC、sparse residual paths、architecture scaling、training FLOPs、memory traffic、MoE pre-training efficiency 等词，避免只召回 serving/runtime 和 repo release。`ai-infra` 常规 radar 可做一组 lightweight hardware platform smoke-check query，覆盖少量通用词和当前高信号平台名，例如 rack-scale / interconnect / performance per watt / token cost / partner benchmark / deployment status / Rubin / Blackwell / Instinct / TPU。只有当 source_scope 显式包含 `hardware_platform_reports`，或 smoke-check 命中明确官方报告、partner benchmark、deployment status 或系统指标时，才展开查 `hardware_platform_reports`；避免漏掉不在常规技术 RSS 中的官方平台报告，但不要让硬件平台扫描压过 serving/runtime、paper 和 repo activity 的主线。
+3. 用频道 profile 生成主题搜索 query，用 watchlist 扩展每周固定关注实体的搜索 query；watchlist 用于召回和筛选，不代表最终报告必须覆盖每个实体。`ai-infra` 常规 radar 必须包含一组 architecture infra impact query，覆盖 attention architecture、KV-sharing / low-rank / grouped attention variants、sparse / linear / sliding-window / hybrid attention、MoE architecture、routed / shared / hierarchical experts、expert-choice routing、residual stream、Hyper-Connections、xHC/mHC、sparse residual paths、architecture scaling、training FLOPs、memory traffic、MoE pre-training efficiency 等词，避免只召回 serving/runtime 和 repo release。
+3a. `ai-infra` 常规 radar 必须执行 hardware platform smoke-check。不要把它当成可选补充。先读取 `profile.yml` 中 `required_smoke_checks.hardware_platform_reports`，并把 `exact_query_terms` 和 `official_source_terms` 作为本轮固定 query 组执行；这些 query 至少覆盖 Rubin、Blackwell、Instinct、TPU、AI Hypercomputer、NVLink、rack-scale、AI factory。若任一结果命中 official platform report、architecture deep dive、HBM/HBM4/memory bandwidth、interconnect/NVLink/fabric、rack-scale/NVL/AI factory、power/cooling/tokens per watt、MoE/all-to-all/expert routing、long-context attention/KV cache capacity、partner benchmark 或 deployment status，则必须展开 `hardware_platform_reports` 来源组并检查官方页面 / vendor blog。该 smoke-check 不应压过 serving/runtime、paper 和 repo activity 主线，但必须在运行元信息里写明执行过哪些硬件关键词、是否命中、是否展开，以及若未保留候选的原因。
 4. 如果 source_scope 包含 github_releases、github_activity、framework_releases 或 repo_activity，读取 `config/tracked-repos.yml`，按当前频道和 repo 的 `source_modes` 过滤出本轮要查的仓库。
 5. 当 source_scope 包含 papers / arxiv / github / rss / vendor_blogs / repo_activity，用户指定作者/实验室/maintainer，或候选归因有助于排序时，读取 `config/experts.yml` 和/或 `config/venues.yml`。专家和会议只用于 query expansion、venue context、attribution 和 signal weighting，不能替代保留标准；`primary_channels` 命中强于 `related_channels`，后者只作为弱相关信号或排序 tie-breaker。
 6. 默认不要读取 `topics.full.yml` 和频道 research map；只有在专项扫描、召回不足、分类不确定、需要方向观察或用户明确要求完整覆盖时才展开读取。
@@ -75,6 +76,7 @@
 17. 对模型发布、agent 产品更新、硬件平台报告和框架 release，结合 watchlist 判断是否属于重点实体；只有当它包含模型版本、架构、context length、runtime 支持、量化 artifact、benchmark、kernel、兼容性信息、agent 工作流变化、工具调用能力、IDE/CLI/GitHub 集成、权限/沙箱变化、rack-scale topology、interconnect、power/cooling、token-cost、partner benchmark 或 deployment status 时才保留。
 17a. 对 `ai-infra` 的架构类论文，不能只按 serving/runtime 过滤。若论文明确说明 attention / MoE / residual-stream 等架构改变会影响 compute graph、KV cache layout、prefill/decode cost、routing、all-to-all、expert parallelism、memory traffic、training FLOPs、MFU、kernel path、通信形态、MoE pre-training efficiency 或 serving/training runtime，即使不是系统框架论文，也应作为 `architecture infra impact` 候选保留。
 17b. 对 `ai-infra` 的硬件平台报告，不能只依赖单一 developer technical blog RSS。若官方新闻页、vendor blog、partner benchmark 或 whitepaper 明确给出 rack-scale topology、interconnect/fabric、HBM、low-bit hardware path、power/cooling、token-cost、MoE all-to-all、KV capacity、deployment status 或 partner benchmark，即使它是 vendor blog 而不是论文或 framework release，也可作为高价值技术报告候选保留。若只有发布口号、股价/市场信息或泛数据中心营销，不保留。
+17c. 对 `ai-infra` 的硬件 smoke-check 结果，不能因为“不是论文 / 不是 framework release / 不是 repo activity”而丢弃。只要官方技术报告或架构 deep dive 落在时间范围内，并包含 `profile.yml` 的 `required_smoke_checks.hardware_platform_reports.expand_hardware_platform_reports_if_any` 中任一系统证据，就进入候选池；再按 rubric 排序。若被过滤，必须在 Near Miss 写出过滤原因。
 18. 先按子类聚合候选，并判断是否有子类满足方向观察条件。
 19. 在子类内按初筛评分排序，不按固定 Top N 凑数。
 20. 在输出开头给出“本轮方向摘要”：哪些子类强、哪些子类弱、哪些子类满足方向观察条件、哪些子类暂不展开以及原因。
@@ -114,6 +116,7 @@
 
 - 搜索时间范围和来源范围
 - 本轮频道、读取的 profile、是否读取 tracked-repos / experts / venues、是否展开 full topics / research map、来自配置的主题/查询依据
+- `ai-infra` 常规 radar 必须报告 hardware smoke-check：执行的硬件关键词、官方来源 query、是否命中、是否展开 `hardware_platform_reports`、最终保留或过滤了哪些硬件平台候选
 - 如用户给出“专项/只看某方向”等领域限定，说明本轮核心子类、软过滤口径和相邻候选保留规则
 - 本轮方向摘要：强信号子类、弱信号子类、满足方向观察条件的子类、暂不展开的子类及原因
 - 按频道模板组织的轻量简报

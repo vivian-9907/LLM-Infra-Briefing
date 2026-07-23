@@ -232,19 +232,29 @@ sources:
   hardware_platform_reports:
     type: rss_or_web
     candidate_pages:
-      - name: NVIDIA official blog
-        url: https://blogs.nvidia.com/
       - name: NVIDIA technical blog
         url: https://developer.nvidia.com/blog/
+      - name: NVIDIA official blog
+        url: https://blogs.nvidia.com/
+      - name: Google Cloud AI Hypercomputer blog
+        url: https://cloud.google.com/blog/products/compute
+      - name: AMD Instinct product and blog pages
+        url: https://www.amd.com/en/products/accelerators/instinct.html
     candidate_signals:
       - GPU architecture
       - accelerator architecture
       - rack-scale system
       - interconnect
       - memory bandwidth
+      - HBM
+      - HBM4
       - low-bit hardware path
       - performance per watt
       - token cost
+      - tokens per watt
+      - MoE all-to-all
+      - long-context attention
+      - KV cache capacity
       - partner benchmark
       - deployment status
     notes: >
