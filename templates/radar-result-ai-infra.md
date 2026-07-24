@@ -90,6 +90,8 @@
 - 读取：profile + watchlist + sources + rubric
 - Hardware smoke-check：已执行 / 未执行；关键词：
 - Hardware smoke-check 命中：是 / 否；是否展开 `hardware_platform_reports`：是 / 否；保留 / 过滤候选：
+- Operator / kernel smoke-check：已执行 / 未执行；关键词：
+- Operator / kernel smoke-check 命中：是 / 否；是否展开 `operator_kernel_reports`：是 / 否；保留 / 过滤候选：
 - 是否读取 tracked-repos：否 / 是，原因：
 - 是否读取 experts：否 / 是，原因：
 - 是否读取 venues：否 / 是，原因：

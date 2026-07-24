@@ -42,6 +42,11 @@ source_groups:
   repo_activity:
     - github_activity
     - github_releases
+  operator_kernels:
+    - github_releases
+    - github_activity
+    - vendor_blogs
+    - rss
 
 sources:
   arxiv:
@@ -261,6 +266,74 @@ sources:
       专门补硬件平台和 AI factory 官方报告召回。只保留有具体系统指标、
       rack/topology/interconnect、serving/training bottleneck、token cost、
       power/cooling、partner benchmark 或 deployment 证据的内容；纯发布口号过滤。
+
+  operator_kernel_reports:
+    type: repo_release_activity_or_web
+    tracked_repositories_ref: config/tracked-repos.yml
+    preferred_repositories:
+      - flashinfer-ai/flashinfer
+      - triton-lang/triton
+      - NVIDIA/cutlass
+      - NVIDIA/cudnn-frontend
+      - NVIDIA/TensorRT-LLM
+      - sgl-project/sglang
+      - vllm-project/vllm
+      - huggingface/transformers
+    candidate_pages:
+      - name: Ascend CANN / CANN Community
+        url: https://www.hiascend.com/software/cann
+      - name: Ascend open-source repositories
+        url: https://gitee.com/ascend
+      - name: FlashInfer releases
+        url: https://github.com/flashinfer-ai/flashinfer/releases
+      - name: Triton releases
+        url: https://github.com/triton-lang/triton/releases
+      - name: CUTLASS releases
+        url: https://github.com/NVIDIA/cutlass/releases
+      - name: cuDNN Frontend releases
+        url: https://github.com/NVIDIA/cudnn-frontend/releases
+    candidate_signals:
+      - Ascend NPU
+      - CANN
+      - ATB
+      - torch-npu
+      - custom operator
+      - fused operator
+      - graph fusion
+      - FlashInfer
+      - Triton
+      - CUTLASS
+      - cuDNN Frontend
+      - TensorRT-LLM kernel
+      - SGLang kernel
+      - vLLM kernel
+      - FlashAttention
+      - MLA
+      - MoE GEMM
+      - grouped GEMM
+      - fused MoE
+      - FP8
+      - FP4
+      - NVFP4
+      - MXFP4
+      - INT4
+      - TMA
+      - WGMMA
+      - TMEM
+      - swizzle
+      - blockscale
+      - ROCm
+      - HIP
+      - gfx950
+      - benchmark
+    notes: >
+      专门补算子、kernel、compiler backend 和硬件后端适配召回。重点保留会改变
+      LLM serving/training 性能路径的更新：Ascend CANN/ATB/torch-npu、
+      Triton/CUTLASS/FlashInfer/cuDNN Frontend、TensorRT-LLM/SGLang/vLLM
+      kernel backend、MoE/MLA/FlashAttention/low-bit GEMM/fusion，以及带
+      latency、throughput、bandwidth、occupancy 或 memory traffic 证据的实现。
+      只有自动 nightly build 或纯 binary packaging 且无 kernel 信息时，放入
+      Near Miss 或 watch，不作为高优先级候选。
 
 future_sources:
   - name: SSRN
