@@ -167,3 +167,55 @@ repositories:
       - kernel-optimization
       - operator-fusion
       - hardware-portability
+
+  - name: cuDNN Frontend
+    repo: NVIDIA/cudnn-frontend
+    channels:
+      - quantization
+      - ai-infra
+    source_modes:
+      - github_releases
+      - github_activity
+    tags:
+      - kernel-optimization
+      - operator-fusion
+      - hardware-portability
+
+  - name: NCCL
+    repo: NVIDIA/nccl
+    channels:
+      - ai-infra
+    source_modes:
+      - github_releases
+      - github_activity
+    tags:
+      - communication
+      - collectives
+      - distributed-training
+      - distributed-inference
+
+  - name: NVSHMEM
+    repo: NVIDIA/nvshmem
+    channels:
+      - ai-infra
+    source_modes:
+      - github_releases
+      - github_activity
+    tags:
+      - communication
+      - memory-system
+      - distributed-training
+      - distributed-inference
+
+  - name: NIXL
+    repo: ai-dynamo/nixl
+    channels:
+      - ai-infra
+    source_modes:
+      - github_releases
+      - github_activity
+    tags:
+      - communication
+      - memory-system
+      - disaggregated-serving
+      - kv-cache
